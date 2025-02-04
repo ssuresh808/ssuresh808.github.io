@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-
+  
   <!-- IMPORTANT for mobile responsiveness -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  
   <title>Surprise</title>
 
   <!-- Optional cursive font -->
@@ -15,13 +15,14 @@
     href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap"
     rel="stylesheet"
   />
-
+  
   <!-- Link to external CSS file (same folder) -->
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <!-- INTRO OVERLAY (black) -->
   <div id="intro">
+    <!-- Make sure the function name here matches exactly what’s in your script -->
     <h2>Hi pretty lady, are you ready for a surprise?</h2>
     <button onclick="startSurprise()">Yes, show me!</button>
   </div>
@@ -49,4 +50,81 @@
 
       <img
         id="hugGif"
-        src="https://i.imgur
+        src="https://i.imgur.com/2vxNgKI.gif"
+        alt="Sending virtual hug"
+      />
+
+      <div id="love-message">
+        <p>
+          Hi sweetheart, I really wanted to ask you to be my Valentine. Honestly, the day you me over I had some
+          stuff planned out and sadly it didn't go through. I really wanted to make it special for you.
+        </p>
+        <p>
+          I know you are in India and these last couple weeks have been difficult for us both. Not a single day has
+          gone by where I haven't thought about you and us. I have been working on this for a little while now and I
+          wanted to make it all nice for you.
+        </p>
+        <p>
+          I am so happy and proud of the relationship we have together, and if you clicked “Yes” and saw this
+          message I hope that a smile came across your face. You are the most important person in my life and I want
+          you to know that I love you so damn much. I can't wait to hold you in my arms and spend every second I can
+          with you. I am so excited for you to come back to me. I will be waiting patiently till then.
+        </p>
+        <p>
+          I love you so much. Thank you for being my Valentine.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript code at bottom -->
+  <script>
+    const intro = document.getElementById("intro");
+    const main = document.getElementById("main");
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const loveMessage = document.getElementById('love-message');
+    const hugGif = document.getElementById('hugGif');
+
+    // Intro fade out on "Yes, show me!" click
+    function startSurprise() {
+      // Fade the overlay out
+      intro.style.opacity = "0";
+      
+      // Wait 1 second, then hide the overlay and reveal main content
+      setTimeout(() => {
+        intro.style.display = "none";
+        main.style.opacity = "1";
+      }, 1000);
+    }
+
+    // "No" button
+    noBtn.addEventListener('click', () => {
+      alert("No way, bubs pressed this one is a mistake!");
+    });
+
+    // "Yes" button toggles the message & hides/shows the GIF
+    yesBtn.addEventListener('click', () => {
+      loveMessage.classList.toggle('show');
+      if (loveMessage.classList.contains('show')) {
+        hugGif.classList.add('hidden');
+      } else {
+        hugGif.classList.remove('hidden');
+      }
+    });
+
+    // Optional hidden download function
+    /*
+    function hiddenDownload() {
+      const htmlContent = document.documentElement.outerHTML;
+      const link = document.createElement('a');
+      link.href = 'data:text/html;charset=utf-8,' + encodeURIComponent(htmlContent);
+      link.download = 'Surprise.html';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+    */
+  </script>
+</body>
+</html>
