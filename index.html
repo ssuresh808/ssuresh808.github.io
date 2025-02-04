@@ -22,7 +22,7 @@
 <body>
   <!-- INTRO OVERLAY (black) -->
   <div id="intro">
-    <!-- Make sure the function name here matches exactly what’s in your script -->
+    <!-- The button calls startSurprise(), which is in script.js -->
     <h2>Hi pretty lady, are you ready for a surprise?</h2>
     <button onclick="startSurprise()">Yes, show me!</button>
   </div>
@@ -77,55 +77,7 @@
     </div>
   </div>
 
-  <!-- JavaScript code at bottom -->
-  <script>
-    // Grab references to elements
-    const intro = document.getElementById("intro");
-    const main = document.getElementById("main");
-    const noBtn = document.getElementById('noBtn');
-    const yesBtn = document.getElementById('yesBtn');
-    const loveMessage = document.getElementById('love-message');
-    const hugGif = document.getElementById('hugGif');
-
-    // Intro fade out on "Yes, show me!" click
-    function startSurprise() {
-      // Fade the overlay out
-      intro.style.opacity = "0";
-      
-      // Wait 1 second, then hide the overlay and reveal main content
-      setTimeout(() => {
-        intro.style.display = "none";
-        main.style.opacity = "1";
-      }, 1000);
-    }
-
-    // "No" button
-    noBtn.addEventListener('click', () => {
-      alert("No way, bubs pressed this one is a mistake!");
-    });
-
-    // "Yes" button toggles the message & hides/shows the GIF
-    yesBtn.addEventListener('click', () => {
-      loveMessage.classList.toggle('show');
-      if (loveMessage.classList.contains('show')) {
-        hugGif.classList.add('hidden');
-      } else {
-        hugGif.classList.remove('hidden');
-      }
-    });
-
-    // Optional hidden download function
-    /*
-    function hiddenDownload() {
-      const htmlContent = document.documentElement.outerHTML;
-      const link = document.createElement('a');
-      link.href = 'data:text/html;charset=utf-8,' + encodeURIComponent(htmlContent);
-      link.download = 'Surprise.html';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-    */
-  </script>
+  <!-- Reference the external JS file at the bottom -->
+  <script src="script.js"></script>
 </body>
 </html>
