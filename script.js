@@ -39,7 +39,7 @@ if (!window.__SURPRISE_SCRIPT_LOADED__) {
   // 3) “No” button
   if (noBtn) {
     noBtn.addEventListener('click', () => {
-      alert("No way, bubs pressed this one is a mistake!");
+      alert("No way bubs pressed this one it hasss to be a mistake!");
     });
   } else {
     console.error("No button with id='noBtn' found!");
