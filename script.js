@@ -1,6 +1,6 @@
 /************************************************
   script.js
-  All JavaScript logic separate from the HTML.
+  Prevents "already declared" & "null" errors
 ************************************************/
 
 // 1) Fade out the black overlay when “Yes, show me!” is clicked
@@ -8,42 +8,45 @@ function startSurprise() {
   const intro = document.getElementById('intro');
   intro.style.opacity = '0';
 
-  // After 1s, hide the overlay & show main content
+  // After 1s, hide overlay & show main content
   setTimeout(() => {
     intro.style.display = 'none';
     document.getElementById('main').style.opacity = '1';
   }, 1000);
 }
 
-// 2) Grab the “No” and “Yes” buttons from the main content
+// 2) Grab references ONCE
 const noBtn = document.getElementById('noBtn');
 const yesBtn = document.getElementById('yesBtn');
-
-// 3) Define logic for “No” button
-noBtn.addEventListener('click', () => {
-  alert("No way, bubs pressed this one is a mistake!");
-});
-
-// 4) Define logic for “Yes” button (toggles the message & GIF)
 const loveMessage = document.getElementById('love-message');
 const hugGif = document.getElementById('hugGif');
 
-yesBtn.addEventListener('click', () => {
-  // Toggle the 'show' class to reveal/hide the love message
-  loveMessage.classList.toggle('show');
+// 3) “No” button
+if (noBtn) {
+  noBtn.addEventListener('click', () => {
+    alert("No way, bubs pressed this one is a mistake!");
+  });
+} else {
+  console.error("No button with id='noBtn' found!");
+}
 
-  // If the message is shown, hide the GIF; otherwise show it
-  if (loveMessage.classList.contains('show')) {
-    hugGif.classList.add('hidden');
-  } else {
-    hugGif.classList.remove('hidden');
-  }
-});
+// 4) “Yes” button toggles message & GIF
+if (yesBtn) {
+  yesBtn.addEventListener('click', () => {
+    loveMessage.classList.toggle('show');
+    if (loveMessage.classList.contains('show')) {
+      hugGif.classList.add('hidden');
+    } else {
+      hugGif.classList.remove('hidden');
+    }
+  });
+} else {
+  console.error("No button with id='yesBtn' found!");
+}
 
 /************************************************
   Optional hidden download function:
-  - Call hiddenDownload() in the console to download
-    Surprise.html (as a data URL).
+  - Use in console: hiddenDownload()
 ************************************************/
 /*
 function hiddenDownload() {
@@ -56,4 +59,3 @@ function hiddenDownload() {
   document.body.removeChild(link);
 }
 */
-
