@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <!-- IMPORTANT for mobile responsiveness -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Surprise</title>
+
+  <!-- Cursive font (optional) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      overflow-x: hidden; /* allow vertical scrolling if needed */
+      background: linear-gradient(to bottom right, #ffc0cb, #ffe6ee);
+      min-height: 100vh;
+    }
+
+    /* INTRO OVERLAY (black) */
+    #intro {
+      position: fixed; 
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 9999;
+      background: #000; /* Black background */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      opacity: 1;
+      transition: opacity 1s ease;
+    }
+
+    #intro h2 {
+      font-family: "Dancing Script", cursive;
+      font-size: 2rem;
+      color: #c71585;
+      margin: 0 0 1.5rem;
+      text-shadow: 1px 1px #fff;
+    }
+
+    #intro button {
+      cursor: pointer;
+      background: #ff69b4;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      padding: 0.8rem 1.2rem;
+      font-size: 1.1rem;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    #intro button:hover {
+      background: #ff85c8;
+      transform: scale(1.05);
+    }
+
+    /* MAIN CONTENT */
+    #main {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+      opacity: 0; /* Will show after intro fades out */
+      transition: opacity 1s ease;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(8px);
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(255, 136, 170, 0.4);
+      text-align: center;
+      max-width: 600px;
+      width: 90%;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      font-family: "Dancing Script", cursive;
+      padding: 1rem 1.5rem;
+    }
+
+    h1 {
+      font-family: "Dancing Script", cursive;
+      color: #ff69b4;
+      margin-bottom: 0.5rem;
+      font-size: 2.5rem;
+      text-shadow: 2px 2px #fff;
+      line-height: 1.2;
+    }
+
+    .prompt {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: #c71585;
+      padding: 0 1rem;
+    }
+
+    button {
+      cursor: pointer;
+      background: #ff69b4;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      padding: 0.6rem 1rem;
+      margin: 0 0.5rem;
+      font-size: 1rem;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    button:hover {
+      background: #ff85c8;
+      transform: scale(1.05);
+    }
+
+    /* Toggleable love message */
+    #love-message {
+      color: #d10068;
+      font-size: 1.1rem;
+      margin-top: 0.8rem;
+      font-weight: bold;
+      text-align: left;
+      line-height: 1.4;
+      max-width: 600px;
+      margin: 0.8rem auto 0;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.8s ease, visibility 0.8s;
+    }
+    #love-message.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Hearts floating in the background */
+    .heart {
+      font-size: 2rem;
+      position: absolute;
+      animation: floatUp 6s infinite ease-in;
+      user-select: none;
+    }
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) scale(0.5);
+        opacity: 0;
+      }
+      25% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    /* GIF fade transition */
+    #hugGif {
+      margin: 0.8rem 0 0;
+      transition: opacity 0.8s ease;
+      width: 50%;
+      max-width: 300px;
+      height: auto;
+    }
+    .hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    /***************************************************************
+      MEDIA QUERY for smaller screens (under 480px)
+    ***************************************************************/
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+      .prompt {
+        font-size: 1.1rem;
+      }
+      #intro h2 {
+        font-size: 1.6rem;
+      }
+      #intro button {
+        font-size: 1rem;
+      }
+      button {
+        font-size: 0.9rem;
+        padding: 0.5rem 0.8rem;
+      }
+      #hugGif {
+        width: 70%; /* more narrow GIF on very small screens */
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- INTRO OVERLAY (black) -->
+  <div id="intro">
+    <h2>Hi pretty lady, are you ready for a surprise?</h2>
+    <button onclick="startSurprise()">Yes, show me!</button>
+  </div>
+
+  <!-- Hearts in the background -->
+  <span class="heart" style="left: 5%; animation-delay: 0s; color: #ff5e9c;">❤️</span>
+  <span class="heart" style="left: 15%; animation-delay: 2s; color: #ff5e9c;">💕</span>
+  <span class="heart" style="left: 30%; animation-delay: 4s; color: #ff5e9c;">💖</span>
+  <span class="heart" style="left: 45%; animation-delay: 1s; color: #ff5e9c;">💘</span>
+  <span class="heart" style="left: 60%; animation-delay: 3s; color: #ff5e9c;">💗</span>
+  <span class="heart" style="left: 75%; animation-delay: 1s; color: #32CD32;">💚</span>
+  <span class="heart" style="left: 85%; animation-delay: 2s; color: #32CD32;">💚</span>
+  <span class="heart" style="left: 90%; animation-delay: 4s; color: #32CD32;">💚</span>
+
+  <!-- MAIN CONTENT -->
+  <div id="main">
+    <div class="card">
+      <h1>Will you be my Valentine?</h1>
+      <div class="prompt">Click “Yes” or “No” below:</div>
+      
+      <div>
+        <button id="yesBtn">Yes</button>
+        <button id="noBtn">No</button>
+      </div>
+
+      <img
+        id="hugGif"
+        src="https://i.imgur.com/2vxNgKI.gif"
+        alt="Sending virtual hug"
+      />
+
+      <div id="love-message">
+        <p>
+          Hi sweetheart, I really wanted to ask you to be my Valentine. Honestly, the day you me over I had some
+          stuff planned out and sadly it didn't go through. I really wanted to make it special for you.
+        </p>
+        <p>
+          I know you are in India and these last couple weeks have been difficult for us both. Not a single day has
+          gone by where I haven't thought about you and us. I have been working on this for a little while now and I
+          wanted to make it all nice for you.
+        </p>
+        <p>
+          I am so happy and proud of the relationship we have together, and if you clicked “Yes” and saw this
+          message I hope that a smile came across your face. You are the most important person in my life and I want
+          you to know that I love you so damn much. I can't wait to hold you in my arms and spend every second I can
+          with you. I am so excited for you to come back to me. I will be waiting patiently till then.
+        </p>
+        <p> 
+          I love you so much. Thank you for being my Valentine.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const intro = document.getElementById("intro");
+    const main = document.getElementById("main");
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const loveMessage = document.getElementById('love-message');
+    const hugGif = document.getElementById('hugGif');
+
+    // Intro fade out on click
+    function startSurprise() {
+      intro.style.opacity = "0";
+      setTimeout(() => {
+        intro.style.display = "none";
+        main.style.opacity = "1";
+      }, 1000);
+    }
+
+    // No button
+    noBtn.addEventListener('click', () => {
+      alert("No way, bubs pressed this one is a mistake!");
+    });
+
+    // Yes button toggles the message & hides/shows the GIF
+    yesBtn.addEventListener('click', () => {
+      loveMessage.classList.toggle('show');
+      if (loveMessage.classList.contains('show')) {
+        hugGif.classList.add('hidden');
+      } else {
+        hugGif.classList.remove('hidden');
+      }
+    });
+
+    // Hidden download function (optional)
+    /*
+    function hiddenDownload() {
+      const htmlContent = document.documentElement.outerHTML;
+      const link = document.createElement('a');
+      link.href = 'data:text/html;charset=utf-8,' + encodeURIComponent(htmlContent);
+      link.download = 'surprise.html';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+    */
+  </script>
+</body>
+</html>
