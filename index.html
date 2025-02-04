@@ -8,27 +8,23 @@
   
   <title>Surprise</title>
 
-  <!-- Optional cursive font -->
+  <!-- Optional cursive font (Dancing Script) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap"
     rel="stylesheet"
   />
-  
-  <!-- Link to external CSS file (same folder) -->
-  <link rel="stylesheet" href="styles.css" />
 
-    <script src="script.js"></script>
+  <!-- Load the external CSS file -->
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <!-- INTRO OVERLAY (black) -->
   <div id="intro">
-    <!-- The button calls startSurprise(), which is in script.js -->
     <h2>Hi pretty lady, are you ready for a surprise?</h2>
+    <!-- The button calls startSurprise() from script.js -->
     <button onclick="startSurprise()">Yes, show me!</button>
-
-
   </div>
 
   <!-- Hearts in the background -->
@@ -81,7 +77,7 @@
     </div>
   </div>
 
-  <!-- Reference the external JS file at the bottom -->
-
+  <!-- Load external JavaScript AFTER the HTML -->
+  <script src="script.js"></script>
 </body>
 </html>
