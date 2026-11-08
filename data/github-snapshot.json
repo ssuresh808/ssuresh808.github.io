@@ -1,0 +1,41 @@
+{
+  "fetchedAt": "2026-11-08T08:30:00Z",
+  "repos": [
+    {
+      "fullName": "ssuresh808/Agentic-RAG-System-over-LLM-Inference-Optimization-Literature",
+      "htmlUrl": "https://github.com/ssuresh808/Agentic-RAG-System-over-LLM-Inference-Optimization-Literature",
+      "description": null,
+      "primaryLanguage": "Python",
+      "stars": 0,
+      "updatedAt": "2026-09-15T06:29:54Z",
+      "stale": false
+    },
+    {
+      "fullName": "ssuresh808/LifeLens",
+      "htmlUrl": "https://github.com/ssuresh808/LifeLens",
+      "description": "Berry, a friendly robot helper in a cross-platform PWA. Cook real recipes from whatever is in your fridge, scan bills, gadgets, and labels with your camera, and ask anything to get clear steps with cited sources. React frontend, FastAPI backend, schema-locked AI output.",
+      "primaryLanguage": "Python",
+      "stars": 0,
+      "updatedAt": "2026-08-31T18:26:00Z",
+      "stale": false
+    },
+    {
+      "fullName": "ssuresh808/Person-Of-Interest",
+      "htmlUrl": "https://github.com/ssuresh808/Person-Of-Interest",
+      "description": "Multimodal face retrieval with vision-language reasoning",
+      "primaryLanguage": "Python",
+      "stars": 0,
+      "updatedAt": "2026-05-07T19:35:54Z",
+      "stale": false
+    },
+    {
+      "fullName": "ssuresh808/sortwise",
+      "htmlUrl": "https://github.com/ssuresh808/sortwise",
+      "description": "A smart CLI tool that organizes cluttered directories",
+      "primaryLanguage": "Python",
+      "stars": 0,
+      "updatedAt": "2026-03-25T20:10:59Z",
+      "stale": false
+    }
+  ]
+}
