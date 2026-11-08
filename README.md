@@ -16,8 +16,3 @@ Personal engineering portfolio for Suraj Suresh: three case studies with measure
 ## Content
 
 Prose and facts live in `content/` (YAML and MDX) and are validated at build time: no em or en dashes, no phone numbers, exactly three featured projects, every evidence number linked to its source, every cover image present. Repository metadata comes from a committed snapshot in `data/` refreshed weekly by a workflow; the site never calls GitHub at request time.
-
-## Docs
-
-- `docs/LLD-v2.0-suraj-suresh.md`: design document.
-- `docs/inputs/sources.md`: dated ledger of every external fact used.
