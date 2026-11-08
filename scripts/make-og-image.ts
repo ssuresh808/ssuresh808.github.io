@@ -45,10 +45,10 @@ async function home() {
 async function projects() {
   fs.mkdirSync('public/og', { recursive: true });
   for (const p of getPublishedProjects()) {
-    const title = wrap(p.title, 30, 2);
+    const title = wrap(p.title, 36, 3);
     const tagline = wrap(p.tagline, 62, 3);
-    const titleSvg = title.map((l, i) => `<text x="90" y="${215 + i * 70}" font-family="Inter, system-ui, sans-serif" font-size="58" font-weight="700" fill="#172321">${esc(l)}</text>`).join('');
-    const tagY = 215 + title.length * 70 + 20;
+    const titleSvg = title.map((l, i) => `<text x="90" y="${200 + i * 62}" font-family="Inter, system-ui, sans-serif" font-size="50" font-weight="700" fill="#172321">${esc(l)}</text>`).join('');
+    const tagY = 200 + title.length * 62 + 24;
     const tagSvg = tagline.map((l, i) => `<text x="90" y="${tagY + i * 40}" font-family="Inter, system-ui, sans-serif" font-size="28" fill="#52615D">${esc(l)}</text>`).join('');
     const svg = frame(`
   <text x="90" y="130" font-family="Inter, system-ui, sans-serif" font-size="26" fill="#52615D" letter-spacing="4">${esc(CATEGORY_LABELS[p.category].toUpperCase())}  ·  CASE STUDY</text>
