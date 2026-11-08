@@ -38,12 +38,12 @@ export default async function ProjectPage({ params }: Params) {
   return (
     <article>
       <ProjectHeader project={project} />
-      <div className="mx-auto grid max-w-site gap-10 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:px-8">
-        <div>
+      <div className="mx-auto grid max-w-site grid-cols-1 gap-10 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:px-8">
+        <div className="min-w-0">
           <EvidenceTable evidence={project.evidence} />
           <div className="prose-site mt-10">{body}</div>
         </div>
-        <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
+        <aside className="min-w-0 space-y-6 lg:sticky lg:top-24 lg:self-start">
           <ProjectLinks project={project} />
           <RepoFacts facts={facts} />
         </aside>

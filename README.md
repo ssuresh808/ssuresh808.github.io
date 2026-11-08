@@ -1,18 +1,23 @@
 # surajsuresh.com
 
-Personal engineering portfolio for Suraj Suresh. Static site, built with Next.js (static export), published through GitHub Pages, and later served at surajsuresh.com.
+Personal engineering portfolio for Suraj Suresh: three case studies with measured evidence, experience, education, and a résumé. Static site built with Next.js (static export) and Tailwind CSS, deployed to GitHub Pages.
 
-## Status
+## Develop
 
-Design stage. No application code yet.
+    npm ci
+    npm run dev            # http://localhost:3000
+    npm run build          # validates content, exports to out/
+    npm start              # serves out/ on :3000
+    npm test               # unit tests (Vitest)
+    npm run test:e2e       # Playwright + axe against out/
+    npm run check:links    # internal links in out/
+    GITHUB_TOKEN=... npm run sync:github   # refresh data/github-snapshot.json
 
-- `docs/LLD-v1.1-original.md`: the generic early-career portfolio LLD this project started from.
-- `docs/LLD-v2.0-suraj-suresh.md`: the LLD instantiated with real resume and GitHub data. Read this one. Section 13 lists the decisions still open.
-- `docs/inputs/`: the resume used and a dated ledger of every external fact (GitHub API, DNS, live link checks) the design relies on.
+## Content
 
-## Planned workflow
+Prose and facts live in `content/` (YAML and MDX) and are validated at build time: no em or en dashes, no phone numbers, exactly three featured projects, every evidence number linked to its source, every cover image present. Repository metadata comes from a committed snapshot in `data/` refreshed weekly by a workflow; the site never calls GitHub at request time.
 
-1. Confirm the open decisions in LLD v2.0, section 13.
-2. Build and run the site locally (`npm run dev`).
-3. Push to GitHub and publish through GitHub Pages.
-4. Point surajsuresh.com at GitHub Pages.
+## Docs
+
+- `docs/LLD-v2.0-suraj-suresh.md`: design document.
+- `docs/inputs/sources.md`: dated ledger of every external fact used.
