@@ -80,3 +80,22 @@ export function snapshotChanged(a: Snapshot | null, b: Snapshot): boolean {
   if (!a) return true;
   return JSON.stringify(a.repos) !== JSON.stringify(b.repos);
 }
+
+export const REFRESH_FETCHED_AT_AFTER_DAYS = 7;
+
+/**
+ * Write when the repo records changed, or when every repo answered (fresh or 304) and the
+ * stored fetchedAt is more than a week old, so quiet repos do not look stale after 30 days.
+ */
+export function shouldWriteSnapshot(
+  previous: Snapshot | null,
+  next: Snapshot,
+  outcomes: Map<string, FetchOutcome>,
+  nowIso: string,
+): boolean {
+  if (snapshotChanged(previous, next)) return true;
+  const allSucceeded = [...outcomes.values()].every((o) => o.kind !== 'failed');
+  if (!allSucceeded || !previous) return allSucceeded;
+  const ageDays = (new Date(nowIso).getTime() - new Date(previous.fetchedAt).getTime()) / 86_400_000;
+  return ageDays > REFRESH_FETCHED_AT_AFTER_DAYS;
+}

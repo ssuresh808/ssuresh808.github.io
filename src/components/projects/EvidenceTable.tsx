@@ -12,7 +12,7 @@ export function EvidenceTable({ evidence }: { evidence: Evidence[] }) {
         Every number lists the dataset or run it came from and links to the file in the repo that produced it.
       </p>
       <div className="table-wrap mt-4" tabIndex={0}>
-        <table aria-label="Evidence">
+        <table aria-label="Evidence" className="evidence-table">
           <thead>
             <tr>
               <th scope="col">Measure</th>
@@ -27,9 +27,9 @@ export function EvidenceTable({ evidence }: { evidence: Evidence[] }) {
                 <th scope="row" className="font-medium normal-case tracking-normal text-ink">
                   {e.label}
                 </th>
-                <td className="whitespace-nowrap font-mono">{e.value}</td>
-                <td className="text-muted">{e.method}</td>
-                <td>
+                <td data-label="Value" className="font-mono">{e.value}</td>
+                <td data-label="Method" className="text-muted">{e.method}</td>
+                <td data-label="Source">
                   {e.sourceUrl ? (
                     <ExternalLink href={e.sourceUrl} className="text-accent underline underline-offset-4">
                       {e.sourceUrl.split('/').slice(-1)[0]}

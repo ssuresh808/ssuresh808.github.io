@@ -107,3 +107,17 @@ describe('snapshotChanged', () => {
     expect(snapshotChanged(null, same)).toBe(true);
   });
 });
+
+describe('shouldWriteSnapshot', () => {
+  it('writes when repos changed, or when all repos succeeded and the previous fetchedAt is over 7 days old', async () => {
+    const { shouldWriteSnapshot } = await import('@/lib/github-sync');
+    const allOk = new Map<string, FetchOutcome>([['ssuresh808/sortwise', { kind: 'not-modified' }]]);
+    const oneFailed = new Map<string, FetchOutcome>([['ssuresh808/sortwise', { kind: 'failed', reason: 'HTTP 500' }]]);
+    const unchanged: Snapshot = { ...prev, fetchedAt: now };
+    expect(shouldWriteSnapshot(prev, { ...unchanged, repos: [{ ...prev.repos[0], stars: 3 }] }, allOk, now)).toBe(true);
+    expect(shouldWriteSnapshot(prev, unchanged, allOk, now)).toBe(true); // 2026-10-01 is 38 days before now
+    expect(shouldWriteSnapshot({ ...prev, fetchedAt: '2026-11-05T00:00:00Z' }, unchanged, allOk, now)).toBe(false);
+    expect(shouldWriteSnapshot(prev, unchanged, oneFailed, now)).toBe(false);
+    expect(shouldWriteSnapshot(null, unchanged, allOk, now)).toBe(true);
+  });
+});

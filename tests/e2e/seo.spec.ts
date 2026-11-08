@@ -50,3 +50,12 @@ test('project pages have unique titles and canonical URLs', async ({ page }) => 
 test('the exported 404 page exists at the root for GitHub Pages', () => {
   expect(fs.existsSync('out/404.html')).toBe(true);
 });
+
+test('project pages carry a PNG Open Graph image that exists', async ({ page, request }) => {
+  await page.goto('/projects/agentic-rag/');
+  const og = await page.locator('meta[property="og:image"]').first().getAttribute('content');
+  expect(og).toMatch(/\/og\/agentic-rag\.png$/);
+  const res = await request.get(new URL(og!).pathname);
+  expect(res.status()).toBe(200);
+  expect(res.headers()['content-type']).toContain('image/png');
+});

@@ -28,3 +28,12 @@ test('no phone number is rendered on the about page', async ({ page }) => {
   await page.goto('/about/');
   expect(await page.locator('body').innerText()).not.toMatch(/\(?\d{3}\)?[ .-]?\d{3}[ .-]?\d{4}/);
 });
+
+test('anchor targets are not hidden under the sticky header', async ({ page }) => {
+  await page.goto('/about/');
+  await page.evaluate(() => document.getElementById('experience-fitbux')?.scrollIntoView());
+  await page.waitForFunction(() => window.scrollY > 0);
+  const header = await page.locator('header').boundingBox();
+  const target = await page.locator('#experience-fitbux').boundingBox();
+  expect(header && target && target.y >= header.y + header.height).toBe(true);
+});

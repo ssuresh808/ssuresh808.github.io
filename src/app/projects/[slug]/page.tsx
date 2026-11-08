@@ -24,7 +24,11 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     title: project.title,
     description: project.tagline,
     alternates: { canonical: `/projects/${slug}/` },
-    openGraph: { title: project.title, description: project.tagline, images: [{ url: project.coverImage }] },
+    openGraph: {
+      title: project.title,
+      description: project.tagline,
+      images: [{ url: `/og/${slug}.png`, width: 1200, height: 630, alt: project.title }],
+    },
   };
 }
 

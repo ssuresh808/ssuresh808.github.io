@@ -22,6 +22,8 @@ jobs:
       - run: npm run validate:content
       - uses: peter-evans/create-pull-request@v7
         with:
+          # A fine-grained PAT (contents + pull requests: write) lets CI run on the PR; the default token cannot trigger workflows.
+          token: ${{ secrets.SYNC_TOKEN || secrets.GITHUB_TOKEN }}
           commit-message: 'chore: refresh GitHub snapshot'
           title: 'chore: refresh GitHub snapshot'
           body: 'Automated weekly refresh of data/github-snapshot.json. Review the diff before merging.'

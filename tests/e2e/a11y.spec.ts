@@ -33,6 +33,23 @@ test.describe('320px viewport', () => {
   }
 });
 
+test.describe('320px evidence table', () => {
+  test.use({ viewport: { width: 320, height: 700 } });
+  test('every evidence cell, including the synthetic-corpus label, is visible without sideways scrolling', async ({ page }) => {
+    await page.goto('/projects/person-of-interest/');
+    const viewport = await page.evaluate(() => document.documentElement.clientWidth);
+    const cells = page.getByRole('table', { name: 'Evidence' }).locator('td, th');
+    const count = await cells.count();
+    expect(count).toBeGreaterThan(4);
+    for (let i = 0; i < count; i++) {
+      const box = await cells.nth(i).boundingBox();
+      if (!box) continue; // hidden header cells are fine
+      expect(box.x + box.width, `cell ${i} overflows`).toBeLessThanOrEqual(viewport + 1);
+    }
+    await expect(page.getByRole('table', { name: 'Evidence' })).toContainText('not model quality');
+  });
+});
+
 test('reduced motion does not hide content', async ({ browser }) => {
   const context = await browser.newContext({ reducedMotion: 'reduce' });
   const page = await context.newPage();

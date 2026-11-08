@@ -4,7 +4,7 @@ import {
   readAllowlist,
   mapRepo,
   mergeSnapshot,
-  snapshotChanged,
+  shouldWriteSnapshot,
   type ApiRepo,
   type FetchOutcome,
 } from '../src/lib/github-sync';
@@ -55,11 +55,11 @@ async function main() {
   const { snapshot, warnings } = mergeSnapshot(previous, allowlist, outcomes, fetchedAt);
   for (const w of warnings) console.warn(`::warning::${w}`);
 
-  if (snapshotChanged(previous, snapshot)) {
+  if (shouldWriteSnapshot(previous, snapshot, outcomes, fetchedAt)) {
     fs.writeFileSync(snapshotPath, JSON.stringify(snapshot, null, 2) + '\n');
     console.log(`updated ${snapshotPath} (${snapshot.repos.length} repos)`);
   } else {
-    console.log('snapshot unchanged; nothing written');
+    console.log('snapshot unchanged and recent; nothing written');
   }
 }
 
