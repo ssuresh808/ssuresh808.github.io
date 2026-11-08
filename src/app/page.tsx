@@ -1,8 +1,51 @@
+import Link from 'next/link';
+import { Hero } from '@/components/home/Hero';
+import { FeaturedProjectGrid } from '@/components/projects/FeaturedProjectGrid';
+import { ExperienceTimeline } from '@/components/about/ExperienceTimeline';
+import { Education } from '@/components/about/Education';
+import { SkillEvidence } from '@/components/about/SkillEvidence';
+import { Section } from '@/components/common/Section';
+import { loadProfile, loadExperience, loadEducation, loadSkills } from '@/lib/content';
+import { getFeaturedProjects, getPublishedProjects, toCardData } from '@/lib/projects';
+
 export default function HomePage() {
+  const profile = loadProfile();
+  const experience = loadExperience();
+  const education = loadEducation();
+  const skills = loadSkills();
+  const featured = getFeaturedProjects().map(toCardData);
+  const titles = Object.fromEntries(getPublishedProjects().map((p) => [p.slug, p.title]));
+
   return (
-    <main className="mx-auto max-w-site p-8">
-      <h1 className="text-3xl font-semibold text-ink">Suraj Suresh</h1>
-      <p className="font-mono text-muted">scaffold</p>
-    </main>
+    <>
+      <Hero profile={profile} />
+      <Section id="work" eyebrow="Selected work" title="Three systems, each with evidence and documented decisions">
+        <FeaturedProjectGrid projects={featured} />
+        <p className="mt-6 text-sm">
+          <Link href="/projects/" className="font-medium text-accent underline underline-offset-4">
+            All projects
+          </Link>
+        </p>
+      </Section>
+      <Section
+        id="experience"
+        eyebrow="Experience"
+        title="Production ML in fintech"
+        className="border-t border-border bg-surface"
+      >
+        <ExperienceTimeline entries={experience} compact />
+        <p className="mt-6 text-sm">
+          <Link href="/about/#experience" className="font-medium text-accent underline underline-offset-4">
+            Full experience and education
+          </Link>
+        </p>
+      </Section>
+      <Section id="skills" eyebrow="Skills" title="Every skill points at the work that proves it">
+        <SkillEvidence groups={skills} experience={experience} projectTitles={titles} compact />
+      </Section>
+      <Section id="education" eyebrow="Education" className="border-t border-border bg-surface">
+        <Education data={education} compact />
+      </Section>
+    </>
   );
 }
