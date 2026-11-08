@@ -1,0 +1,30 @@
+name: Sync GitHub snapshot
+on:
+  schedule:
+    - cron: '0 9 * * 1' # Mondays 09:00 UTC
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run sync:github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm run validate:content
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: 'chore: refresh GitHub snapshot'
+          title: 'chore: refresh GitHub snapshot'
+          body: 'Automated weekly refresh of data/github-snapshot.json. Review the diff before merging.'
+          branch: chore/github-snapshot
+          delete-branch: true
+          add-paths: data/github-snapshot.json

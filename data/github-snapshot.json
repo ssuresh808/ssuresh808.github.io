@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-08T08:30:00Z",
+  "fetchedAt": "2026-11-08T09:33:11Z",
   "repos": [
     {
       "fullName": "ssuresh808/Agentic-RAG-System-over-LLM-Inference-Optimization-Literature",
@@ -8,6 +8,7 @@
       "primaryLanguage": "Python",
       "stars": 0,
       "updatedAt": "2026-09-15T06:29:54Z",
+      "etag": "W/\"6f68a452fc6304b2c044246d8bceb05065847c9e7d8d62195e96e384cffbb333\"",
       "stale": false
     },
     {
@@ -17,6 +18,7 @@
       "primaryLanguage": "Python",
       "stars": 0,
       "updatedAt": "2026-08-31T18:26:00Z",
+      "etag": "W/\"c219b02af8f54499fc43497d661a4dee87d99abb93593872d9fc09f5376c3d54\"",
       "stale": false
     },
     {
@@ -26,6 +28,7 @@
       "primaryLanguage": "Python",
       "stars": 0,
       "updatedAt": "2026-05-07T19:35:54Z",
+      "etag": "W/\"6fa7520021a73107fffc7462b1c654f1e3251c132d7521cbc9963a3165f27000\"",
       "stale": false
     },
     {
@@ -35,6 +38,7 @@
       "primaryLanguage": "Python",
       "stars": 0,
       "updatedAt": "2026-03-25T20:10:59Z",
+      "etag": "W/\"7aed99e939de3d924e38a4d2afdf92eecb8b1cf3e13fda9e4616d2d99bb5e992\"",
       "stale": false
     }
   ]
