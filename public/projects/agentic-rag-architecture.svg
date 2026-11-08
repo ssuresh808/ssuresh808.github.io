@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" role="img" aria-labelledby="t d">
+  <title id="t">Agentic RAG architecture</title>
+  <desc id="d">Question to FastAPI, routed to single-shot RAG or a LangGraph ReAct agent, both retrieving from Qdrant built from an arXiv corpus with dense and BM25 hybrid search, generating with Qwen2.5-14B via Ollama, answer with citations shown in a Streamlit UI.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#52615D"/>
+    </marker>
+    <style>
+      .box{fill:#fff;stroke:#DCE5E1;stroke-width:2;rx:14}
+      .accent{fill:#E7F2EF;stroke:#12665C}
+      .label{font:600 22px Inter,system-ui,sans-serif;fill:#172321}
+      .sub{font:16px "IBM Plex Mono",ui-monospace,monospace;fill:#52615D}
+      .edge{stroke:#52615D;stroke-width:2;fill:none;marker-end:url(#arrow)}
+      .edgelabel{font:14px "IBM Plex Mono",ui-monospace,monospace;fill:#52615D}
+    </style>
+  </defs>
+  <rect width="1200" height="750" fill="#F7F8F6"/>
+  <rect class="box" x="60" y="80" width="260" height="110"/>
+  <text class="label" x="80" y="125">arXiv corpus</text>
+  <text class="sub" x="80" y="155">500 papers, 1,477 chunks</text>
+  <rect class="box" x="60" y="250" width="260" height="110"/>
+  <text class="label" x="80" y="295">Ingestion</text>
+  <text class="sub" x="80" y="325">chunk + quality gate</text>
+  <rect class="box" x="60" y="420" width="260" height="110"/>
+  <text class="label" x="80" y="465">Embeddings</text>
+  <text class="sub" x="80" y="495">bge-large (local)</text>
+  <rect class="box accent" x="440" y="420" width="300" height="130"/>
+  <text class="label" x="460" y="465">Qdrant</text>
+  <text class="sub" x="460" y="495">dense + BM25 hybrid</text>
+  <text class="sub" x="460" y="520">optional cross-encoder rerank</text>
+  <rect class="box" x="440" y="80" width="300" height="90"/>
+  <text class="label" x="460" y="120">Question</text>
+  <text class="sub" x="460" y="150">POST /api/v1/answer</text>
+  <rect class="box accent" x="440" y="230" width="300" height="110"/>
+  <text class="label" x="460" y="275">FastAPI</text>
+  <text class="sub" x="460" y="305">GENERATION_MODE switch</text>
+  <rect class="box" x="860" y="200" width="280" height="90"/>
+  <text class="label" x="880" y="240">Single-shot RAG</text>
+  <text class="sub" x="880" y="270">measured baseline</text>
+  <rect class="box" x="860" y="330" width="280" height="90"/>
+  <text class="label" x="880" y="370">LangGraph ReAct agent</text>
+  <text class="sub" x="880" y="400">plans searches, cites sources</text>
+  <rect class="box" x="860" y="470" width="280" height="90"/>
+  <text class="label" x="880" y="510">Qwen2.5-14B via Ollama</text>
+  <text class="sub" x="880" y="540">swappable provider</text>
+  <rect class="box accent" x="440" y="620" width="700" height="90"/>
+  <text class="label" x="460" y="660">Streamlit UI</text>
+  <text class="sub" x="460" y="690">answer + citation ledger (arXiv title and id for every source)</text>
+  <path class="edge" d="M190,190 L190,250"/>
+  <path class="edge" d="M190,360 L190,420"/>
+  <path class="edge" d="M320,475 L440,475"/>
+  <path class="edge" d="M590,170 L590,230"/>
+  <path class="edge" d="M740,270 L860,245"/>
+  <path class="edge" d="M740,300 L860,375"/>
+  <path class="edge" d="M860,245 C800,330 760,400 740,460"/>
+  <text class="edgelabel" x="760" y="400">retrieve</text>
+  <path class="edge" d="M1000,420 L1000,470"/>
+  <path class="edge" d="M1000,290 L1000,330"/>
+  <path class="edge" d="M590,340 L590,620"/>
+  <text class="edgelabel" x="600" y="590">answer + sources</text>
+</svg>
