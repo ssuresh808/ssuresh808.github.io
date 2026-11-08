@@ -44,7 +44,7 @@ export function checkOutDir(outDir: string): { checked: number; missing: { page:
   return { checked, missing };
 }
 
-const URL_RE = /https:\/\/[^\s"'<>)\]]+/g;
+const URL_RE = /https:\/\/[^\s"'<>)\]\\]+/g;
 
 function walkAll(dir: string): string[] {
   return fs.readdirSync(dir, { withFileTypes: true }).flatMap((d) => {
@@ -58,7 +58,7 @@ export function collectExternalUrls(contentDir: string, outDir: string): string[
   const files = [...walkAll(contentDir), ...walkHtml(outDir).map((p) => path.join(outDir, p))];
   for (const f of files) {
     for (const m of fs.readFileSync(f, 'utf8').matchAll(URL_RE)) {
-      const u = m[0].replace(/[.,;:]+$/, '');
+      const u = m[0].replace(/[.,;:\\]+$/, '');
       if (!u.includes('ssuresh808.github.io') && !u.includes('schema.org') && !u.includes('w3.org')) urls.add(u);
     }
   }

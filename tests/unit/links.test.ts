@@ -34,3 +34,12 @@ describe('links', () => {
     ]);
   });
 });
+
+describe('collectExternalUrls', () => {
+  it('strips JSON escape backslashes and trailing punctuation from URLs found in exported HTML', async () => {
+    const { collectExternalUrls } = await import('@/lib/links');
+    const content = makeTempDir({ 'a.mdx': 'see https://example.com/docs/file.md.' });
+    const out = makeTempDir({ 'index.html': 'self.__next_f.push([1,"\\"url\\":\\"https://example.com/repo\\\\"])' });
+    expect(collectExternalUrls(content, out)).toEqual(['https://example.com/docs/file.md', 'https://example.com/repo']);
+  });
+});
