@@ -1,0 +1,37 @@
+---
+slug: sortwise
+title: sortwise, a directory organizer CLI
+tagline: Organizes cluttered folders by type, date, or custom rules, with dry-run, undo scripts, and no dependencies beyond the standard library.
+category: other
+featured: false
+order: 10
+published: true
+publishedAt: '2026-03-25'
+period: Mar 2026
+contribution: Solo. I wrote the CLI, the strategy implementations, the config loader, and the tests.
+collaboration: solo
+tags: [Python, CLI, pytest]
+coverImage: /projects/sortwise.svg
+coverAlt: Illustration of a terminal window running sortwise, moving files from a cluttered Downloads folder into Documents, Images, and Applications folders.
+repo: ssuresh808/sortwise
+demoStatus: none
+links: []
+evidence: []
+---
+
+## Problem
+
+Everyone has a Downloads folder with hundreds of unsorted files. I wanted a single command that sorts it by file type, by date, or by rules I define, without ever losing a file.
+
+## What it does
+
+sortwise groups files into folders like Images, Documents, and Videos, or into year and month folders, or into categories from a JSON config. It previews changes with a dry-run flag, writes a rollback script with every operation so any run can be undone without the tool, renames collisions instead of overwriting, and logs every move.
+
+## Design decisions
+
+1. **Strategy pattern.** Each organization method is its own strategy, so adding a new one does not touch the core engine.
+2. **Dry run first.** Preventing accidental data loss is the core design principle.
+3. **Undo as a shell script.** A plain bash script is portable and does not require sortwise to reverse a run.
+4. **No external dependencies.** Standard library only, for maximum portability.
+
+Tests cover the organizer, the strategies, and the file helpers.

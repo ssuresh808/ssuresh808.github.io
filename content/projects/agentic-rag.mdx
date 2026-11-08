@@ -1,0 +1,78 @@
+---
+slug: agentic-rag
+title: Agentic RAG over LLM Inference-Optimization Literature
+tagline: Answers questions over an arXiv corpus with a LangGraph agent, hybrid retrieval chosen by a 300-question ablation, and every claim cited.
+category: ai-ml
+featured: true
+order: 1
+published: true
+publishedAt: '2026-07-10'
+period: Jun to Jul 2026
+contribution: Solo. I designed and built ingestion, hybrid retrieval, the LangGraph agent, the FastAPI service, the retrieval benchmark, the RAGAS harness, Docker packaging, and CI.
+collaboration: solo
+tags: [Python, LangGraph, Qdrant, FastAPI, Docker, RAGAS, 'Weights & Biases', Ollama]
+coverImage: /projects/agentic-rag-architecture.svg
+coverAlt: Architecture diagram. A question enters a FastAPI service that routes to single-shot RAG or a LangGraph ReAct agent. Both retrieve from a Qdrant collection built from an arXiv corpus with dense plus BM25 hybrid search, generate with Qwen2.5-14B through Ollama, and return an answer with citations to a Streamlit UI.
+repo: ssuresh808/Agentic-RAG-System-over-LLM-Inference-Optimization-Literature
+demoStatus: none
+links:
+  - label: Retrieval experiments (docs/experiments.md)
+    url: https://github.com/ssuresh808/Agentic-RAG-System-over-LLM-Inference-Optimization-Literature/blob/main/docs/experiments.md
+  - label: Architecture decision records (docs/decisions.md)
+    url: https://github.com/ssuresh808/Agentic-RAG-System-over-LLM-Inference-Optimization-Literature/blob/main/docs/decisions.md
+  - label: Architecture notes (docs/architecture.md)
+    url: https://github.com/ssuresh808/Agentic-RAG-System-over-LLM-Inference-Optimization-Literature/blob/main/docs/architecture.md
+evidence:
+  - label: Hybrid retrieval, MRR
+    value: 0.594 to 0.639
+    method: rag-mini-wikipedia, 3,200 passages, 300 factoid questions, relevance measured as answer-string containment. Dense bge-large alone vs dense plus BM25 hybrid.
+    sourceUrl: https://github.com/ssuresh808/Agentic-RAG-System-over-LLM-Inference-Optimization-Literature/blob/main/docs/experiments.md
+  - label: Hybrid retrieval, Hit@5
+    value: 0.697 to 0.717
+    method: Same benchmark and configurations as the MRR row.
+    sourceUrl: https://github.com/ssuresh808/Agentic-RAG-System-over-LLM-Inference-Optimization-Literature/blob/main/docs/experiments.md
+  - label: Reranker effect on MRR
+    value: 0.639 to 0.520
+    method: bge-reranker-base cross-encoder, fetch 20 then keep top 5, same benchmark. Traced to a mismatch between the answer-containment metric and the reranker objective, so reranking is off by default.
+    sourceUrl: https://github.com/ssuresh808/Agentic-RAG-System-over-LLM-Inference-Optimization-Literature/blob/main/docs/experiments.md
+---
+
+## Problem
+
+Most RAG demos retrieve over Wikipedia and stop there. I wanted to answer questions over a narrow technical corpus: recent arXiv work on LLM inference optimization, covering vLLM, quantization, KV-cache management, continuous batching, speculative decoding, and GPU serving economics. That domain changes the engineering problem in three ways. The vocabulary is dense and overloaded, so the discriminating signal is often an exact term or a number rather than fuzzy topicality. Questions are multi-hop, so evidence has to be assembled from more than one passage. And a confident wrong answer about a serving optimization is worse than saying the corpus does not cover it.
+
+## My contribution
+
+I built the whole system. Ingestion streams a 500-paper arXiv slice into about 1,477 chunks behind a quality gate (minimum length, whitespace normalization) and indexes them in an isolated Qdrant collection. Retrieval is dense bge-large embeddings plus optional BM25 hybrid fusion, with an optional cross-encoder rerank stage, all config-gated. Generation runs in one of two modes behind a feature flag: a single-shot RAG baseline, or a LangGraph ReAct agent that decides when to search and cites what it used. A FastAPI service exposes the answer endpoint, and a Streamlit UI shows the answer next to a citation ledger. Around that I wrote the retrieval benchmark, a NaN-tolerant RAGAS harness with a local judge by default and a hosted-judge fallback, Weights & Biases tracking, multi-stage Docker and compose files, and a GitHub Actions workflow that runs ruff and pytest on every push.
+
+## Architecture
+
+The diagram above shows the path from a question to a cited answer. Everything runs locally and free by default (local embeddings, a local Qwen2.5-14B through Ollama), and every provider is swappable to a hosted API by changing one config value.
+
+## Key decisions
+
+**Hybrid retrieval as the default.** BM25 catches the entity and number questions that dense embeddings blur, which is exactly where lexical signal matters in this corpus. The ablation below is why hybrid shipped as the default.
+
+**Reranking off by default.** The cross-encoder lowered MRR on the benchmark. I traced that to the metric, not the code. Answer-string containment rewards passages that literally contain the answer, while the reranker promotes passages that are topically relevant but answerless. I recorded the trade-off and a follow-up plan (judge reranking with a relevance-aware metric) as an architecture decision record instead of hiding the result.
+
+**LangGraph instead of the first agent framework.** The agent was first built on deepagents. A live smoke test showed its heavy built-in middleware overwhelmed the local 14B model: it never called the search tool and produced off-topic output. A control test confirmed the same model calls tools reliably in a lighter harness, so I migrated to LangGraph's ReAct agent. That kept the local-first constraint intact.
+
+**Local-first evaluation.** The RAGAS loop uses a local judge so the project does not depend on a paid API, and it tolerates the NaN scores that local judges produce when they fail to return strict JSON.
+
+## Evidence
+
+Retrieval ablation on rag-mini-wikipedia (3,200 passages indexed, 300 factoid questions, answer-recall at k):
+
+| Configuration | Hit@5 | MRR | Recall@5 |
+| --- | --- | --- | --- |
+| Dense (bge-large) | 0.697 | 0.594 | 0.487 |
+| Dense + BM25 hybrid | 0.717 | 0.639 | 0.496 |
+| Hybrid + cross-encoder rerank | 0.690 | 0.520 | 0.470 |
+
+The numbers are deterministic given the same corpus, gold sample, and models, and the configurations are flags in the repo so anyone can reproduce them.
+
+Generation quality is measured with the RAGAS harness, but I do not quote those scores here. They came from a three-question sample with a local judge and are not stable enough to stand behind. The harness, the judge fallback, and the tracking are the deliverable.
+
+## Tradeoffs and next steps
+
+Answer-containment is a cheap proxy that under-credits reranking; the next step is a relevance-aware metric or gold passage labels so the reranker can be judged fairly. The RAGAS sample needs to grow before any generation number is worth publishing. Two pull requests are open on the repo as of this writing: one caps agent citations at the requested top-k across multi-search runs, and one makes the RAGAS harness two-stage and config-driven with persisted runs.

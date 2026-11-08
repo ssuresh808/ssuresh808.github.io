@@ -1,0 +1,57 @@
+---
+slug: lifelens
+title: LifeLens, a multimodal assistant PWA
+tagline: Photograph a bill, an appliance error, or a label, or ask a question, and get schema-validated steps with cited sources on any device.
+category: fullstack
+featured: true
+order: 2
+published: true
+publishedAt: '2026-08-31'
+period: Jun to Aug 2026
+contribution: Solo. I designed and built the React 18 PWA, the FastAPI proxy and its guards, the Pydantic output contracts, the prompt system, the pytest suite, CI, and the Vercel and Render deployments.
+collaboration: solo
+tags: [React, Vite, PWA, FastAPI, Pydantic, Python, pytest, Vercel]
+coverImage: /projects/lifelens-scan.webp
+coverAlt: Screenshot of the LifeLens web app on a phone-sized screen, showing the Berry robot mascot and the Cook, Scan, and Ask tabs.
+repo: ssuresh808/LifeLens
+demoUrl: https://lifelens-two.vercel.app
+demoStatus: paused
+demoNote: The web app is live, but its API is paused while hosting is reworked, so Scan and Chat return an error right now.
+links:
+  - label: Architecture and six design decisions (docs/ARCHITECTURE.md)
+    url: https://github.com/ssuresh808/LifeLens/blob/main/docs/ARCHITECTURE.md
+  - label: Build log (docs/DEVLOG.md)
+    url: https://github.com/ssuresh808/LifeLens/blob/main/docs/DEVLOG.md
+evidence: []
+---
+
+## Problem
+
+Most AI demos are chat windows, but the confusing things in daily life are physical: a dishwasher flashing E24, a utility bill, a nutrition label, a form in another language, five ingredients in the fridge. I wanted one app that works from a phone camera and from a laptop paste, answers in steps you can act on, and never ships a model API key to the client.
+
+## My contribution
+
+I built the whole product. The front end is a React 18 and Vite progressive web app with three tabs: Cook (ingredients in, feasible dishes and scaled recipes out), Scan (five expert modes for identifying things, explaining documents, appliance repair, nutrition, and translation), and Ask (life questions with numbered steps and cited sources). It installs on iOS, Android, Mac, and Windows, uses the camera on phones, and accepts drag-and-drop or clipboard paste on laptops. The back end is a FastAPI proxy that holds the model key, validates base64 payloads and media types, caps payload size, rate-limits per IP, and restricts CORS. Every model response is contracted to one of two Pydantic schemas and validated server-side before anything reaches the phone. A pytest suite covering schema contracts, prompt construction, and endpoint guards runs in GitHub Actions on every push. The front end deploys to Vercel with security headers and rewrites to the API on Render.
+
+## Architecture
+
+The phone captures or pastes an image and posts it to the FastAPI proxy. The proxy rate-limits and validates the request, calls a multimodal model (the repo uses Anthropic's Claude vision and chat models) with a mode-specific prompt and a JSON contract, parses and validates the result with Pydantic, and returns a structured card: category, title, confidence, summary, steps, and warnings. Chat follows the same proxy pattern with conversation history replayed each turn.
+
+## Key decisions
+
+These are documented in the repo's architecture notes.
+
+1. **Prompts live on the server.** The client never sees prompt text or the model key.
+2. **One output contract per mode family.** Every scan mode shares the `ScanResult` schema and both chat tabs share the `ChatReply` schema, so one result card and one message component render everything.
+3. **The model is an unreliable upstream.** Malformed output is parsed tolerantly, validated, and returned as a 502 rather than crashing the request.
+4. **Defense at the edge.** Input validation, payload caps, per-IP rate limiting, and CORS all sit in the proxy.
+5. **Shrink images on the phone.** Full-resolution photos silently exceeded the vision API's payload limit. Downscaling client-side before upload fixed it.
+6. **Web search as an opt-in tool, declared server-side.** When the user toggles it, the model researches time-sensitive questions and returns cited sources in the same schema.
+
+## Evidence
+
+This is a product project, so the evidence is the working software and its engineering, not a benchmark: a live deployment, a CI-gated test suite, and a documented production bug with its fix. I have not published usage numbers because I do not track visitors.
+
+## Tradeoffs and next steps
+
+Free-tier API hosting sleeps when idle and is currently paused, which is why the demo note above exists. The roadmap in the repo covers streaming responses, on-device caching, multi-image scans, and conversation follow-ups.
