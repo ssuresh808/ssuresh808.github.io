@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Download } from 'lucide-react';
 import { navItems } from '@/config/navigation';
 import { site } from '@/config/site';
+import { MobileMenu } from './MobileMenu';
 
 interface Props {
   resumeHref: string;
@@ -48,17 +49,12 @@ export function SiteHeader({ resumeHref, resumeDownloadName }: Props) {
           </nav>
           {resume}
         </div>
-        <details className="relative sm:hidden">
-          <summary className="cursor-pointer list-none rounded-button border border-border bg-surface px-3 py-1.5 text-sm font-medium [&::-webkit-details-marker]:hidden">
-            Menu
-          </summary>
-          <div className="absolute right-0 mt-2 w-56 rounded-card border border-border bg-surface p-4 shadow-lg">
-            <nav aria-label="Primary">
-              <NavLinks stacked />
-            </nav>
-            <div className="mt-4">{resume}</div>
-          </div>
-        </details>
+        <MobileMenu label="Menu">
+          <nav aria-label="Primary">
+            <NavLinks stacked />
+          </nav>
+          <div className="mt-4">{resume}</div>
+        </MobileMenu>
       </div>
     </header>
   );
