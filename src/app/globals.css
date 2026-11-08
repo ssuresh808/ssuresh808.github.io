@@ -1,0 +1,165 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-bg: #f7f8f6;
+  --color-surface: #ffffff;
+  --color-ink: #172321;
+  --color-muted: #52615d;
+  --color-accent: #12665c;
+  --color-accent-tint: #e7f2ef;
+  --color-border: #dce5e1;
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --radius-card: 14px;
+  --radius-button: 8px;
+  --container-site: 1120px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100px;
+  z-index: 100;
+  padding: 0.5rem 0.75rem;
+  background: var(--color-accent);
+  color: #fff;
+  border-radius: var(--radius-button);
+}
+.skip-link:focus {
+  top: 0.75rem;
+}
+
+/* Long-form case-study prose */
+.prose-site {
+  max-width: 72ch;
+  line-height: 1.7;
+}
+.prose-site h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+.prose-site h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+.prose-site p,
+.prose-site ul,
+.prose-site ol {
+  margin-bottom: 1rem;
+}
+.prose-site ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+}
+.prose-site ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
+}
+.prose-site li + li {
+  margin-top: 0.25rem;
+}
+.prose-site a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose-site code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--color-accent-tint);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+.prose-site pre {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-button);
+  padding: 1rem;
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+.prose-site pre code {
+  background: none;
+  padding: 0;
+}
+.prose-site .table-wrap,
+.table-wrap {
+  overflow-x: auto;
+  margin-bottom: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-button);
+  background: var(--color-surface);
+}
+.prose-site table,
+.table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+.prose-site th,
+.prose-site td,
+.table-wrap th,
+.table-wrap td {
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+}
+.prose-site th,
+.table-wrap th {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+  background: var(--color-bg);
+}
+.prose-site figure {
+  margin: 1.5rem 0;
+}
+.prose-site figcaption {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  margin-top: 0.5rem;
+}
+.prose-site blockquote {
+  border-left: 3px solid var(--color-accent);
+  padding-left: 1rem;
+  color: var(--color-muted);
+  margin-bottom: 1rem;
+}
