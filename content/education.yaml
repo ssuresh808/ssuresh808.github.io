@@ -1,0 +1,27 @@
+education:
+  - institution: University of Colorado Boulder
+    degree: M.S. in Data Science
+    gpa: 4.0/4.0
+    expected: Spring 2028
+    status: in progress
+  - institution: University of California, Santa Cruz
+    degree: B.A. in Business Management Economics
+    completed: June 2025
+    status: completed
+coursework:
+  - Machine Learning Economics
+  - Structured Query Language (SQL)
+  - Python Programming
+  - Data Structures & Algorithms
+  - Dynamic Programming & Greedy Algorithms
+  - Applied Discrete Math
+  - Computing Fundamentals 1 & 2
+training:
+  - name: Become an AI Engineer
+    provider: ByteByteGo
+    period: Jun to Aug 2026
+    detail: Six projects including an evaluated RAG chatbot and an MCP tool-calling agent.
+  - name: Large Language Models Bootcamp
+    provider: SupportVectors
+    period: Jan to Mar 2026
+    detail: 24 labs and a team capstone across RAG, fine-tuning, agents, and security.

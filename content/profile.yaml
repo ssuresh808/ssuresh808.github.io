@@ -1,0 +1,18 @@
+name: Suraj Suresh
+headline: I build and evaluate AI systems end to end.
+roleLine: M.S. Data Science student at CU Boulder, seeking Summer 2027 internships in Machine Learning / AI Engineering, Data Engineering, or Infrastructure.
+summary: >-
+  A year of production ML in fintech, then three AI systems built from scratch:
+  a benchmarked RAG system, a vision-language search system, and a deployed
+  multimodal assistant. Each ships with CI and documented design decisions.
+location: null
+availability: Summer 2027 internships
+email: mail2surajsuresh@gmail.com
+links:
+  github: https://github.com/ssuresh808
+  linkedin: https://www.linkedin.com/in/suraj-suresh-profile/
+resume:
+  path: /resume.pdf
+  downloadName: Suraj_Suresh_Resume.pdf
+  updated: '2026-10-24'
+photo: /images/suraj.webp

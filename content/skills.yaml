@@ -1,0 +1,45 @@
+- group: Languages
+  items:
+    - { name: Python, evidence: [agentic-rag, lifelens, person-of-interest] }
+    - { name: SQL, evidence: ['experience:fitbux'] }
+    - { name: R, evidence: [] }
+    - { name: C++, evidence: [] }
+    - { name: JavaScript, evidence: [lifelens] }
+- group: Machine Learning
+  items:
+    - { name: scikit-learn, evidence: [] }
+    - { name: PyTorch, evidence: ['experience:fitbux', person-of-interest] }
+    - { name: Hugging Face Transformers, evidence: ['experience:fitbux'] }
+    - { name: Transformer fine-tuning, evidence: ['experience:fitbux'] }
+    - { name: Text and multimodal embeddings, evidence: [agentic-rag, person-of-interest] }
+- group: Evaluation & Experiments
+  items:
+    - { name: Retrieval benchmarking, evidence: [agentic-rag] }
+    - { name: Controlled ablations, evidence: [agentic-rag, person-of-interest] }
+    - { name: MRR and recall@k, evidence: [agentic-rag, person-of-interest] }
+    - { name: RAGAS, evidence: [agentic-rag] }
+    - { name: Weights & Biases, evidence: [agentic-rag] }
+- group: LLM & Agent Frameworks
+  items:
+    - { name: LangChain, evidence: [agentic-rag] }
+    - { name: LangGraph, evidence: [agentic-rag] }
+    - { name: RAG pipeline design, evidence: [agentic-rag] }
+    - { name: Agents and tool calling, evidence: [agentic-rag] }
+    - { name: MCP, evidence: [] }
+    - { name: Local inference (Ollama), evidence: [agentic-rag] }
+- group: Search & Vector Databases
+  items:
+    - { name: Qdrant, evidence: [agentic-rag] }
+    - { name: FAISS, evidence: [person-of-interest] }
+    - { name: Dense and hybrid (BM25 + embedding) retrieval, evidence: [agentic-rag] }
+    - { name: Cross-encoder reranking, evidence: [agentic-rag] }
+- group: Engineering & Infrastructure
+  items:
+    - { name: FastAPI, evidence: [lifelens, agentic-rag] }
+    - { name: Pydantic, evidence: [lifelens] }
+    - { name: React 18, evidence: [lifelens] }
+    - { name: Docker, evidence: [agentic-rag] }
+    - { name: CI/CD, evidence: [agentic-rag, lifelens, person-of-interest] }
+    - { name: AWS (EC2, S3, CloudWatch), evidence: ['experience:fitbux'] }
+    - { name: GCP (Vertex AI, GCS), evidence: ['experience:fitbux'] }
+    - { name: SLURM, evidence: [person-of-interest] }

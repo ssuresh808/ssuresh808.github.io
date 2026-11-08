@@ -1,0 +1,13 @@
+- id: fitbux
+  organization: FitBUX
+  descriptor: financial technology
+  title: Machine Learning Intern
+  location: Austin, TX (Remote)
+  start: '2023-06'
+  end: '2024-05'
+  kind: internship
+  highlights:
+    - Fine-tuned BERT (PyTorch, Hugging Face Transformers) on a financial-text corpus and shipped its embeddings as the semantic-matching layer over a 1,000-pair advisor-validated Q&A bank, powering a conversational guidance feature for production users.
+    - Built the Python and SQL data pipelines that assembled the 1,000+ advisor-validated records behind the model.
+    - "Owned production deployment end to end: migrated the service from GCP Vertex AI to AWS EC2 and S3 and stood up CloudWatch monitoring for the live service."
+  caseStudy: false
