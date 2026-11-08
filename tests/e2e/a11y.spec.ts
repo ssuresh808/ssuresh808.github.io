@@ -50,10 +50,10 @@ test.describe('320px evidence table', () => {
   });
 });
 
-test('reduced motion does not hide content', async ({ browser }) => {
+test('reduced motion does not hide content', async ({ browser, baseURL }) => {
   const context = await browser.newContext({ reducedMotion: 'reduce' });
   const page = await context.newPage();
-  await page.goto('http://localhost:3000/');
+  await page.goto(`${baseURL}/`);
   await expect(page.getByTestId('project-card').first()).toBeVisible();
   await context.close();
 });

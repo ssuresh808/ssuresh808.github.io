@@ -20,10 +20,10 @@ test.describe('projects index', () => {
     await expect(page.getByTestId('project-card')).toHaveCount(4);
   });
 
-  test('renders every card and the result count with JavaScript disabled', async ({ browser }) => {
+  test('renders every card and the result count with JavaScript disabled', async ({ browser, baseURL }) => {
     const context = await browser.newContext({ javaScriptEnabled: false });
     const page = await context.newPage();
-    await page.goto('http://localhost:3000/projects/');
+    await page.goto(`${baseURL}/projects/`);
     await expect(page.getByTestId('project-card')).toHaveCount(4);
     await context.close();
   });
