@@ -32,14 +32,36 @@ function frame(inner: string): string {
 }
 
 async function home() {
+  // Composite of the three featured covers on the brand frame.
+  const featured = getPublishedProjects().filter((p) => p.featured).slice(0, 3);
+  const tileW = 300;
+  const tileH = 188;
+  const tiles = await Promise.all(
+    featured.map(async (p) => {
+      const file = `public${p.coverImage}`;
+      const img = sharp(file, { density: 192 }).resize(tileW, tileH, { fit: 'cover', position: 'top' });
+      return img.png().toBuffer();
+    }),
+  );
   const svg = frame(`
-  <text x="90" y="150" font-family="Inter, system-ui, sans-serif" font-size="30" fill="#52615D" letter-spacing="4">ENGINEERING PORTFOLIO</text>
-  <text x="90" y="260" font-family="Inter, system-ui, sans-serif" font-size="88" font-weight="700" fill="#172321">Suraj Suresh</text>
-  <text x="90" y="340" font-family="Inter, system-ui, sans-serif" font-size="40" fill="#172321">I build and evaluate AI systems end to end.</text>
-  <text x="90" y="420" font-family="Inter, system-ui, sans-serif" font-size="30" fill="#52615D">Agentic RAG  ·  LifeLens  ·  Person of Interest</text>
-  <text x="90" y="540" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="26" fill="#12665C">github.com/ssuresh808</text>`);
-  await sharp(Buffer.from(svg)).png().toFile('public/og-image.png');
-  console.log('wrote public/og-image.png');
+  <text x="90" y="110" font-family="Inter, system-ui, sans-serif" font-size="26" fill="#52615D" letter-spacing="4">ENGINEERING PORTFOLIO</text>
+  <text x="90" y="200" font-family="Inter, system-ui, sans-serif" font-size="76" font-weight="700" fill="#172321">Suraj Suresh</text>
+  <text x="90" y="262" font-family="Inter, system-ui, sans-serif" font-size="32" fill="#172321">I build and evaluate AI systems end to end.</text>
+  <text x="90" y="585" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="24" fill="#12665C">ssuresh808.github.io</text>`);
+  const composites = tiles.map((input, i) => ({ input, left: 90 + i * (tileW + 30), top: 320 }));
+  const frames = featured.map((_, i) =>
+    Buffer.from(
+      `<svg xmlns="http://www.w3.org/2000/svg" width="${tileW + 4}" height="${tileH + 4}"><rect x="1" y="1" width="${tileW + 2}" height="${tileH + 2}" rx="12" fill="none" stroke="#DCE5E1" stroke-width="2"/></svg>`,
+    ),
+  );
+  await sharp(Buffer.from(svg))
+    .composite([
+      ...frames.map((input, i) => ({ input, left: 88 + i * (tileW + 30), top: 318 })),
+      ...composites,
+    ])
+    .png()
+    .toFile('public/og-image.png');
+  console.log('wrote public/og-image.png (composite of featured covers)');
 }
 
 async function projects() {

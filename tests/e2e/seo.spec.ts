@@ -59,3 +59,20 @@ test('project pages carry a PNG Open Graph image that exists', async ({ page, re
   expect(res.status()).toBe(200);
   expect(res.headers()['content-type']).toContain('image/png');
 });
+
+test('icons and the home social image are real, servable files', async ({ page, request }) => {
+  await page.goto('/');
+  const pngIcon = page.locator('link[rel="icon"][type="image/png"]');
+  await expect(pngIcon).toHaveCount(1);
+  const apple = page.locator('link[rel="apple-touch-icon"]');
+  await expect(apple).toHaveCount(1);
+  for (const sel of [pngIcon, apple]) {
+    const href = (await sel.getAttribute('href'))!;
+    const res = await request.get(href);
+    expect(res.status(), href).toBe(200);
+    expect(res.headers()['content-type']).toContain('image/png');
+  }
+  const og = await request.get('/og-image.png');
+  expect(og.status()).toBe(200);
+  expect(og.headers()['content-type']).toContain('image/png');
+});
