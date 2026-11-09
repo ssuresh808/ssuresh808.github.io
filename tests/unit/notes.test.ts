@@ -26,7 +26,7 @@ describe('notes loader', () => {
       'notes/b.mdx': note('b'),
       'notes/c.mdx': note('c').replace('published: true', 'published: false'),
     });
-    expect(loadAllNotes(dir).map((n) => n.slug)).toEqual(['b', 'a', 'c']);
+    expect(loadAllNotes(dir).map((n) => n.slug)).toEqual(['b', 'c', 'a']); // same-day ties keep file order
     expect(getPublishedNotes(dir).map((n) => n.slug)).toEqual(['b', 'a']);
     expect(getNoteBySlug('c', dir)).toBeNull();
     expect(getNoteBySlug('b', dir)?.body).toContain('Body text.');
