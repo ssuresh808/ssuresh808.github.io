@@ -1,0 +1,49 @@
+---
+slug: reranking-metric-mismatch
+title: Why reranking lowered my retrieval score, and why that was the metric's fault
+summary: A cross-encoder reranker dropped MRR from 0.639 to 0.520 on my RAG benchmark. The reranker was doing its job. The metric was measuring something else.
+publishedAt: '2026-11-09'
+published: true
+tags: [RAG, evaluation, retrieval]
+project: agentic-rag
+---
+
+When I built the retrieval layer for my [Agentic RAG system](/projects/agentic-rag/), I expected a cross-encoder reranker to be the easy win. Reranking is the step everyone adds after hybrid search, and the papers say it helps. On my benchmark it made the headline number worse, and working out why taught me more than the win would have.
+
+## The setup
+
+The benchmark is rag-mini-wikipedia: 3,200 passages indexed, 300 factoid questions, with yes/no and very short answers excluded. Relevance is scored by answer-string containment, meaning a retrieved passage counts as relevant if it literally contains the gold answer string. That proxy is cheap and needs no human labels, which is why I started with it.
+
+I compared three configurations. Dense retrieval alone with bge-large embeddings. Dense plus BM25 hybrid fusion. And hybrid plus a bge-reranker-base cross-encoder that fetches twenty candidates and keeps the top five.
+
+| Configuration | Hit@5 | MRR | Recall@5 |
+| --- | --- | --- | --- |
+| Dense (bge-large) | 0.697 | 0.594 | 0.487 |
+| Dense + BM25 hybrid | 0.717 | 0.639 | 0.496 |
+| Hybrid + cross-encoder rerank | 0.690 | 0.520 | 0.470 |
+
+Hybrid beat dense by 0.045 MRR. That part matched expectations: BM25's exact-term matching catches the entity and number questions, the dates and names and quantities, where dense embeddings blur the one token that matters.
+
+Then reranking dropped MRR from 0.639 to 0.520. Not noise. A clear loss on every metric in the table.
+
+## What the reranker was actually optimizing
+
+My first instinct was a bug, so I checked the wiring: the candidate pool was right, the scores were being applied, the top five were really the reranker's top five. Everything worked as designed. So I looked at the losing cases one at a time.
+
+The pattern was consistent. For a question like "when did X happen", the reranker promoted passages that discussed X in depth and demoted the passage that happened to contain the four-digit year. The cross-encoder is trained for semantic relevance: does this passage address this question? The metric rewards something narrower: does this passage contain the answer string? Those two objectives agree most of the time, and they disagree exactly where a reranker has the most leverage, on topically relevant passages that paraphrase, summarize, or stop just short of the literal answer.
+
+So the reranker was not broken. It was being graded by a metric that could not see what it was good at. Judged by an LLM judge or by gold passage labels, I would expect it to look very different. I have not run that comparison yet, so I do not claim it.
+
+## What I did with the result
+
+I shipped hybrid retrieval as the default and left the reranker as an opt-in flag. I wrote the finding down as an architecture decision record with the numbers, the losing cases, and the follow-up plan, instead of quietly removing the reranker or quietly removing the number.
+
+The follow-up is a relevance-aware evaluation: either gold passage labels for a sample of questions or an LLM judge that scores whether a passage answers the question rather than whether it contains a string. Until that exists, the reranker stays off, because the only evidence I have says it hurts the thing I can measure.
+
+## The lesson I keep
+
+The metric you choose decides which technique wins. Answer-string containment is a fine first metric for retrieval, and it quietly favors lexical methods like BM25 while penalizing anything that reasons about meaning. If I had only read the table, I would have concluded that reranking does not work. Reading the failures showed me that the table was asking the wrong question.
+
+The more general version: when an established technique loses on your benchmark, suspect the benchmark before you suspect the technique, and write down which one you decided to trust and why.
+
+The numbers, the configuration flags, and the decision record are in the [repository's experiments and decisions docs](https://github.com/ssuresh808/Agentic-RAG-System-over-LLM-Inference-Optimization-Literature/blob/main/docs/experiments.md).

@@ -49,7 +49,7 @@ async function home() {
   <text x="90" y="262" font-family="Inter, system-ui, sans-serif" font-size="32" fill="#172321">I build and evaluate AI systems end to end.</text>
   <text x="90" y="585" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="24" fill="#12665C">ssuresh808.github.io</text>`);
   const composites = tiles.map((input, i) => ({ input, left: 90 + i * (tileW + 30), top: 320 }));
-  const frames = featured.map((_, i) =>
+  const frames = featured.map(() =>
     Buffer.from(
       `<svg xmlns="http://www.w3.org/2000/svg" width="${tileW + 4}" height="${tileH + 4}"><rect x="1" y="1" width="${tileW + 2}" height="${tileH + 2}" rx="12" fill="none" stroke="#DCE5E1" stroke-width="2"/></svg>`,
     ),

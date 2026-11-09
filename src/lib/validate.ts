@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { loadProfile, loadExperience, loadEducation, loadSkills, ContentError } from './content';
 import { loadAllProjects } from './projects';
+import { loadAllNotes } from './notes';
 import { loadSnapshot } from './github-snapshot';
 import { findDashes } from './text';
 
@@ -50,6 +51,7 @@ export function validateContent(opts: ValidateOptions): string[] {
   const skills = attempt(() => loadSkills(opts.contentDir)) ?? [];
   const projects = attempt(() => loadAllProjects(opts.contentDir)) ?? [];
   const snapshot = attempt(() => loadSnapshot(opts.snapshotPath));
+  const notes = attempt(() => loadAllNotes(opts.contentDir)) ?? [];
 
   const published = projects.filter((p) => p.published);
   const featured = published.filter((p) => p.featured);
@@ -66,6 +68,12 @@ export function validateContent(opts: ValidateOptions): string[] {
           errors.push(`skills.yaml: "${item.name}" references unknown evidence "${ref}"`);
         }
       }
+    }
+  }
+
+  for (const n of notes) {
+    if (n.published && n.project && !slugs.has(n.project)) {
+      errors.push(`notes/${n.slug}.mdx: project "${n.project}" is not a published project`);
     }
   }
 

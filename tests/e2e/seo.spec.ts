@@ -16,8 +16,7 @@ test('sitemap lists every published route and nothing else', async ({ request })
   ]) {
     expect(xml).toContain(`<loc>https://ssuresh808.github.io${route}</loc>`);
   }
-  expect(xml).not.toContain('/notes');
-  expect((xml.match(/<loc>/g) ?? []).length).toBe(7);
+  expect((xml.match(/<loc>/g) ?? []).length).toBe(9);
 });
 
 test('robots allows crawling and names the sitemap', async ({ request }) => {
