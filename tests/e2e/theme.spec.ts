@@ -8,7 +8,7 @@ test('follows the system color scheme by default', async ({ browser }) => {
   await page.goto('http://localhost:3000/');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   const bg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-  expect(bg).toBe('rgb(11, 18, 32)'); // dark background token
+  expect(bg).toBe('rgb(10, 10, 10)'); // dark background token
   await context.close();
 });
 

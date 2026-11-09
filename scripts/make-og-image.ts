@@ -25,7 +25,7 @@ function wrap(text: string, maxChars: number, maxLines: number): string[] {
 
 function frame(inner: string): string {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
-  <rect width="1200" height="630" fill="#f8fafc"/>
+  <rect width="1200" height="630" fill="#ffffff"/>
   <rect x="0" y="0" width="16" height="630" fill="#1d4ed8"/>
   ${inner}
 </svg>`;
@@ -44,14 +44,14 @@ async function home() {
     }),
   );
   const svg = frame(`
-  <text x="90" y="110" font-family="Inter, system-ui, sans-serif" font-size="26" fill="#475569" letter-spacing="4">ENGINEERING PORTFOLIO</text>
-  <text x="90" y="200" font-family="Inter, system-ui, sans-serif" font-size="76" font-weight="700" fill="#0f172a">Suraj Suresh</text>
-  <text x="90" y="262" font-family="Inter, system-ui, sans-serif" font-size="32" fill="#0f172a">I build and evaluate AI systems end to end.</text>
+  <text x="90" y="110" font-family="Inter, system-ui, sans-serif" font-size="26" fill="#525252" letter-spacing="4">ENGINEERING PORTFOLIO</text>
+  <text x="90" y="200" font-family="Inter, system-ui, sans-serif" font-size="76" font-weight="700" fill="#0a0a0a">Suraj Suresh</text>
+  <text x="90" y="262" font-family="Inter, system-ui, sans-serif" font-size="32" fill="#0a0a0a">I build and evaluate AI systems end to end.</text>
   <text x="90" y="585" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="24" fill="#1d4ed8">ssuresh808.github.io</text>`);
   const composites = tiles.map((input, i) => ({ input, left: 90 + i * (tileW + 30), top: 320 }));
   const frames = featured.map(() =>
     Buffer.from(
-      `<svg xmlns="http://www.w3.org/2000/svg" width="${tileW + 4}" height="${tileH + 4}"><rect x="1" y="1" width="${tileW + 2}" height="${tileH + 2}" rx="12" fill="none" stroke="#e2e8f0" stroke-width="2"/></svg>`,
+      `<svg xmlns="http://www.w3.org/2000/svg" width="${tileW + 4}" height="${tileH + 4}"><rect x="1" y="1" width="${tileW + 2}" height="${tileH + 2}" rx="12" fill="none" stroke="#e5e5e5" stroke-width="2"/></svg>`,
     ),
   );
   await sharp(Buffer.from(svg))
@@ -69,11 +69,11 @@ async function projects() {
   for (const p of getPublishedProjects()) {
     const title = wrap(p.title, 36, 3);
     const tagline = wrap(p.tagline, 62, 3);
-    const titleSvg = title.map((l, i) => `<text x="90" y="${200 + i * 62}" font-family="Inter, system-ui, sans-serif" font-size="50" font-weight="700" fill="#0f172a">${esc(l)}</text>`).join('');
+    const titleSvg = title.map((l, i) => `<text x="90" y="${200 + i * 62}" font-family="Inter, system-ui, sans-serif" font-size="50" font-weight="700" fill="#0a0a0a">${esc(l)}</text>`).join('');
     const tagY = 200 + title.length * 62 + 24;
-    const tagSvg = tagline.map((l, i) => `<text x="90" y="${tagY + i * 40}" font-family="Inter, system-ui, sans-serif" font-size="28" fill="#475569">${esc(l)}</text>`).join('');
+    const tagSvg = tagline.map((l, i) => `<text x="90" y="${tagY + i * 40}" font-family="Inter, system-ui, sans-serif" font-size="28" fill="#525252">${esc(l)}</text>`).join('');
     const svg = frame(`
-  <text x="90" y="130" font-family="Inter, system-ui, sans-serif" font-size="26" fill="#475569" letter-spacing="4">${esc(CATEGORY_LABELS[p.category].toUpperCase())}  ·  CASE STUDY</text>
+  <text x="90" y="130" font-family="Inter, system-ui, sans-serif" font-size="26" fill="#525252" letter-spacing="4">${esc(CATEGORY_LABELS[p.category].toUpperCase())}  ·  CASE STUDY</text>
   ${titleSvg}
   ${tagSvg}
   <text x="90" y="560" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="24" fill="#1d4ed8">Suraj Suresh  ·  ssuresh808.github.io/projects/${esc(p.slug)}/</text>`);

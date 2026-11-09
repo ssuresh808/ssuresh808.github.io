@@ -3,18 +3,18 @@
   <desc id="d">Question to FastAPI, routed to single-shot RAG or a LangGraph ReAct agent, both retrieving from Qdrant built from an arXiv corpus with dense and BM25 hybrid search, generating with Qwen2.5-14B via Ollama, answer with citations shown in a Streamlit UI.</desc>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
-      <path d="M0,0 L10,5 L0,10 z" fill="#475569"/>
+      <path d="M0,0 L10,5 L0,10 z" fill="#525252"/>
     </marker>
     <style>
-      .box{fill:#fff;stroke:#e2e8f0;stroke-width:2;rx:14}
+      .box{fill:#fff;stroke:#e5e5e5;stroke-width:2;rx:14}
       .accent{fill:#eff6ff;stroke:#1d4ed8}
-      .label{font:600 22px Inter,system-ui,sans-serif;fill:#0f172a}
-      .sub{font:16px "IBM Plex Mono",ui-monospace,monospace;fill:#475569}
-      .edge{stroke:#475569;stroke-width:2;fill:none;marker-end:url(#arrow)}
-      .edgelabel{font:14px "IBM Plex Mono",ui-monospace,monospace;fill:#475569}
+      .label{font:600 22px Inter,system-ui,sans-serif;fill:#0a0a0a}
+      .sub{font:16px "IBM Plex Mono",ui-monospace,monospace;fill:#525252}
+      .edge{stroke:#525252;stroke-width:2;fill:none;marker-end:url(#arrow)}
+      .edgelabel{font:14px "IBM Plex Mono",ui-monospace,monospace;fill:#525252}
     </style>
   </defs>
-  <rect width="1200" height="750" fill="#f8fafc"/>
+  <rect width="1200" height="750" fill="#ffffff"/>
   <rect class="box" x="60" y="80" width="260" height="110"/>
   <text class="label" x="80" y="125">arXiv corpus</text>
   <text class="sub" x="80" y="155">500 papers, 1,477 chunks</text>
