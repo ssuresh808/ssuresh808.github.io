@@ -11,6 +11,7 @@
     - Built the Python and SQL data pipelines that assembled the 1,000+ advisor-validated records behind the model.
     - "Owned production deployment end to end: migrated the service from GCP Vertex AI to AWS EC2 and S3 and stood up CloudWatch monitoring for the live service."
   caseStudy: false
+  stack: [BERT, PyTorch, Hugging Face Transformers, Python, SQL, Flask, Tkinter, AWS EC2, Elastic Beanstalk, S3, CloudWatch, GCP]
   summary: >-
     FitBUX is a fintech that helps people plan around student loans, retirement, and investing.
     Its human advisors were answering the same routine questions over and over. My project was a
@@ -20,25 +21,30 @@
   note: The code belongs to FitBUX, so there is no public repository. This account comes from my project write-up.
   sections:
     - heading: Data
+      brief: Over 1,000 advisor-checked Q&A pairs on loans, retirement, and investing, cleaned and formatted for training.
       items:
         - Started from the CEO's list of over 1,000 questions and answers covering student loans, retirement planning, and investment strategies.
         - Worked with the financial advisors to check and refine the answers, then cleaned the records and formatted them as question and answer pairs for training.
         - Wrote the Python and SQL pipelines that pulled the records together and kept them consistent.
     - heading: Model and training
+      brief: BERT fine-tuned in PyTorch with Hugging Face, tuned against a held-out set, trained on GPU instances in GCP and AWS.
       items:
         - Chose BERT because it reads a sentence in both directions, which helps with financial questions full of technical terms. Used PyTorch with Hugging Face Transformers so I could iterate quickly on fine-tuning.
         - Tokenized the pairs with the BERT tokenizer, fine-tuned on the Q&A set, and tuned learning rate, batch size, and epochs against a held-out validation set to catch overfitting.
         - Trained on cloud GPU machines, first a Google Compute Engine deep learning VM with data in Cloud Storage under a service account, then an AWS EC2 machine learning image with CUDA and checkpoints in S3 behind IAM roles.
     - heading: Serving
+      brief: Flask APIs matched a user's question to the closest validated answer, and a Tkinter desktop app ran live demos.
       items:
         - Used the fine-tuned embeddings as the matching layer, so a user's question is matched to the closest advisor-validated answer rather than generated from scratch.
         - Built the Flask APIs that take a question and return the matched answer, and a Tkinter desktop interface for live demos with session logging.
         - Tested the chat interface, the APIs, and the model together before anyone outside the team saw it.
     - heading: Deployment
+      brief: Started on Vertex AI, then moved to AWS EC2 behind Elastic Beanstalk with CloudWatch logging and monitoring.
       items:
         - First deployed on Google Vertex AI for the managed hosting, and ran into limits on how much of the environment I could customize or control.
         - Moved the service to AWS, running on EC2 behind Elastic Beanstalk for easier management, with CloudWatch for logging and real-time monitoring.
     - heading: Testing and what came after
+      brief: Employee beta, feedback on accuracy and usability, chat-log review, and a plan for periodic retraining.
       items:
         - Ran a demonstration release with FitBUX employees, collected feedback on usability and answer accuracy, and iterated on both the model and the interface.
         - Reviewed chat logs to track how the bot performed, and set up the model for periodic retraining as new questions and answers came in.

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Chip } from '@/components/common/Chip';
 import { formatRange } from '@/lib/text';
 import type { ExperienceEntry } from '@/lib/schemas/experience';
@@ -21,23 +22,49 @@ export function ExperienceTimeline({ entries, compact = false }: { entries: Expe
               <Chip>{KIND_LABEL[e.kind]}</Chip>
             </div>
           </div>
-          <div>
+          <div className="min-w-0">
             <h3 className="text-lg font-semibold">{e.title}</h3>
             <p className="text-muted">
               {e.organization}
               {e.descriptor ? ` (${e.descriptor})` : ''}
               {e.location ? `, ${e.location}` : ''}
             </p>
-            <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed">
-              {(compact ? e.highlights.slice(0, 2) : e.highlights).map((h) => (
+            {e.summary ? <p className="mt-3 max-w-prose leading-relaxed">{e.summary}</p> : null}
+            <ul className="highlights mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed">
+              {e.highlights.map((h) => (
                 <li key={h}>{h}</li>
               ))}
             </ul>
-            {!compact && (e.summary || e.sections) ? (
+            {e.stack && e.stack.length > 0 ? (
+              <ul className="mt-4 flex flex-wrap gap-2" aria-label="Technologies used">
+                {e.stack.map((t) => (
+                  <li key={t}>
+                    <Chip>{t}</Chip>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+            {compact && e.sections ? (
+              <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {e.sections.map((section) => (
+                  <div key={section.heading} className="rounded-card border border-border bg-surface p-4">
+                    <h4 className="font-mono text-xs uppercase tracking-[0.12em] text-muted">{section.heading}</h4>
+                    <p className="mt-2 text-sm leading-relaxed">{section.brief ?? section.items[0]}</p>
+                  </div>
+                ))}
+              </div>
+            ) : null}
+            {compact && e.sections ? (
+              <p className="mt-5 text-sm">
+                <Link href={`/about/#experience-${e.id}`} className="font-medium text-accent underline underline-offset-4">
+                  Read the full account
+                </Link>
+              </p>
+            ) : null}
+            {!compact && e.sections ? (
               <div className="mt-6 rounded-card border border-border bg-surface p-5">
-                {e.summary ? <p className="max-w-prose leading-relaxed">{e.summary}</p> : null}
-                {e.sections?.map((section) => (
-                  <section key={section.heading} className="mt-5">
+                {e.sections.map((section, i) => (
+                  <section key={section.heading} className={i === 0 ? '' : 'mt-5'}>
                     <h4 className="font-mono text-xs uppercase tracking-[0.12em] text-muted">{section.heading}</h4>
                     <ul className="mt-2 list-disc space-y-2 pl-5 text-sm leading-relaxed">
                       {section.items.map((item) => (

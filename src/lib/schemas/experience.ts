@@ -16,11 +16,13 @@ export const ExperienceEntrySchema = z.object({
   caseStudy: z.boolean().default(false),
   // Optional fuller account, shown on /about/ only.
   summary: z.string().min(20).optional(),
+  stack: z.array(z.string().min(1)).max(12).optional(),
   note: z.string().min(10).optional(),
   sections: z
     .array(
       z.object({
         heading: z.string().min(2).max(60),
+        brief: z.string().min(20).max(120).optional(), // one line for the home page card
         items: z.array(z.string().min(20)).min(1).max(6),
       }),
     )

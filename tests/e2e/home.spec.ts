@@ -35,3 +35,14 @@ test('no phone number is rendered anywhere on the home page', async ({ page }) =
   const text = await page.locator('body').innerText();
   expect(text).not.toMatch(/\(?\d{3}\)?[ .-]?\d{3}[ .-]?\d{4}/);
 });
+
+test('the home experience section carries the substance of the FitBUX work', async ({ page }) => {
+  await page.goto('/');
+  const entry = page.locator('#experience-fitbux');
+  await expect(entry).toContainText(/chatbot/i);
+  await expect(entry.locator('ul.highlights > li')).toHaveCount(3);
+  await expect(entry.getByText('Elastic Beanstalk', { exact: true })).toBeVisible();
+  await expect(entry.getByRole('heading', { level: 4, name: 'Deployment' })).toBeVisible();
+  await expect(entry.getByRole('heading', { level: 4 })).toHaveCount(5);
+  await expect(entry.getByRole('link', { name: /full account/i })).toHaveAttribute('href', '/about/#experience-fitbux');
+});

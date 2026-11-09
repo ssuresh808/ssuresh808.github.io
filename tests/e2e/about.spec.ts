@@ -59,5 +59,5 @@ test('the FitBUX entry on the about page tells the fuller story; the home page k
   await expect(entry).toContainText(/belongs to FitBUX/);
   await expect(entry.getByRole('heading', { level: 4 }).first()).toBeVisible();
   await page.goto('/');
-  await expect(page.locator('#experience-fitbux')).not.toContainText('Tkinter');
+  await expect(page.locator('#experience-fitbux')).not.toContainText('service account');
 });

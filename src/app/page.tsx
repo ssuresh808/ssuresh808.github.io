@@ -52,11 +52,6 @@ export default function HomePage() {
         className="border-t border-border bg-surface"
       >
         <ExperienceTimeline entries={experience} compact />
-        <p className="mt-6 text-sm">
-          <Link href="/about/#experience" className="font-medium text-accent underline underline-offset-4">
-            Experience, education, and training
-          </Link>
-        </p>
       </Section>
       <Section id="skills" eyebrow="Skills" title="Skills and where I used them">
         <SkillEvidence groups={skills} experience={experience} projectTitles={titles} compact />
