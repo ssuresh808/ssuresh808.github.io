@@ -31,8 +31,8 @@ sortwise groups files into folders like Images, Documents, and Videos, or into y
 ## Design decisions
 
 1. **Strategy pattern.** Each organization method is its own strategy, so adding a new one does not touch the core engine.
-2. **Dry run first.** Preventing accidental data loss is the core design principle.
+2. **Dry run first.** Every run can be previewed before anything moves, because the tool must never lose a file.
 3. **Undo as a shell script.** A plain bash script is portable and does not require sortwise to reverse a run.
-4. **No external dependencies.** Standard library only, for maximum portability.
+4. **No external dependencies.** Standard library only, so there is nothing to install beyond Python.
 
 Tests cover the organizer, the strategies, and the file helpers.

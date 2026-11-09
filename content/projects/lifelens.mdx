@@ -28,11 +28,11 @@ evidence: []
 
 ## Problem
 
-Most AI demos are chat windows, but the confusing things in daily life are physical: a dishwasher flashing E24, a utility bill, a nutrition label, a form in another language, five ingredients in the fridge. I wanted one app that works from a phone camera and from a laptop paste, answers in steps you can act on, and never ships a model API key to the client.
+The things that confuse people day to day are physical: a dishwasher flashing E24, a utility bill, a nutrition label, a form in another language, five ingredients in the fridge. A chat window is a poor fit for any of them. I wanted one app that works from a phone camera and from a laptop paste, answers in steps you can act on, and never ships a model API key to the client.
 
 ## My contribution
 
-I built the whole product. The front end is a React 18 and Vite progressive web app with three tabs: Cook (ingredients in, feasible dishes and scaled recipes out), Scan (five expert modes for identifying things, explaining documents, appliance repair, nutrition, and translation), and Ask (life questions with numbered steps and cited sources). It installs on iOS, Android, Mac, and Windows, uses the camera on phones, and accepts drag-and-drop or clipboard paste on laptops. The back end is a FastAPI proxy that holds the model key, validates base64 payloads and media types, caps payload size, rate-limits per IP, and restricts CORS. Every model response is contracted to one of two Pydantic schemas and validated server-side before anything reaches the phone. A pytest suite covering schema contracts, prompt construction, and endpoint guards runs in GitHub Actions on every push. The front end deploys to Vercel with security headers and rewrites to the API on Render.
+The front end is a React 18 and Vite progressive web app with three tabs: Cook (ingredients in, feasible dishes and scaled recipes out), Scan (five expert modes for identifying things, explaining documents, appliance repair, nutrition, and translation), and Ask (life questions with numbered steps and cited sources). It installs on iOS, Android, Mac, and Windows, uses the camera on phones, and accepts drag-and-drop or clipboard paste on laptops. The back end is a FastAPI proxy that holds the model key, validates base64 payloads and media types, caps payload size, rate-limits per IP, and restricts CORS. Every model response is contracted to one of two Pydantic schemas and validated server-side before anything reaches the phone. A pytest suite covering schema contracts, prompt construction, and endpoint guards runs in GitHub Actions on every push. The front end deploys to Vercel with security headers and rewrites to the API on Render.
 
 ## Architecture
 
@@ -51,7 +51,7 @@ These are documented in the repo's architecture notes.
 
 ## Evidence
 
-This is a product project, so the evidence is the working software and its engineering, not a benchmark: a live deployment, a CI-gated test suite, and a documented production bug with its fix. I have not published usage numbers because I do not track visitors.
+This is a product, so the evidence is the software rather than a benchmark: a live deployment, a CI-gated test suite, and a documented production bug with its fix. I have not published usage numbers because I do not track visitors.
 
 ## Tradeoffs and next steps
 

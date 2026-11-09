@@ -1,20 +1,20 @@
 ---
 slug: reranking-metric-mismatch
 title: Why reranking lowered my retrieval score, and why that was the metric's fault
-summary: A cross-encoder reranker dropped MRR from 0.639 to 0.520 on my RAG benchmark. The reranker was doing its job. The metric was measuring something else.
+summary: A cross-encoder reranker dropped MRR from 0.639 to 0.520 on my RAG benchmark. Reading the losing cases showed the answer-containment metric was penalizing the behavior the reranker is trained for.
 publishedAt: '2026-11-09'
 published: true
 tags: [RAG, evaluation, retrieval]
 project: agentic-rag
 ---
 
-When I built the retrieval layer for my [Agentic RAG system](/projects/agentic-rag/), I expected a cross-encoder reranker to be the easy win. Reranking is the step everyone adds after hybrid search, and the papers say it helps. On my benchmark it made the headline number worse, and working out why taught me more than the win would have.
+When I built the retrieval layer for my [Agentic RAG system](/projects/agentic-rag/), I expected a cross-encoder reranker to be the easy win. Reranking is the usual step after hybrid search. On my benchmark it made the headline number worse, and this note is about why.
 
 ## The setup
 
 The benchmark is rag-mini-wikipedia: 3,200 passages indexed, 300 factoid questions, with yes/no and very short answers excluded. Relevance is scored by answer-string containment, meaning a retrieved passage counts as relevant if it literally contains the gold answer string. That proxy is cheap and needs no human labels, which is why I started with it.
 
-I compared three configurations. Dense retrieval alone with bge-large embeddings. Dense plus BM25 hybrid fusion. And hybrid plus a bge-reranker-base cross-encoder that fetches twenty candidates and keeps the top five.
+I compared three configurations: dense retrieval alone with bge-large embeddings, dense plus BM25 hybrid fusion, and hybrid plus a bge-reranker-base cross-encoder that fetches twenty candidates and keeps the top five.
 
 | Configuration | Hit@5 | MRR | Recall@5 |
 | --- | --- | --- | --- |
@@ -22,28 +22,28 @@ I compared three configurations. Dense retrieval alone with bge-large embeddings
 | Dense + BM25 hybrid | 0.717 | 0.639 | 0.496 |
 | Hybrid + cross-encoder rerank | 0.690 | 0.520 | 0.470 |
 
-Hybrid beat dense by 0.045 MRR. That part matched expectations: BM25's exact-term matching catches the entity and number questions, the dates and names and quantities, where dense embeddings blur the one token that matters.
+Hybrid beat dense by 0.045 MRR. That part matched expectations. BM25's exact-term matching catches the date, name, and quantity questions where dense embeddings blur the one token that matters.
 
-Then reranking dropped MRR from 0.639 to 0.520. Not noise. A clear loss on every metric in the table.
+Then reranking dropped MRR from 0.639 to 0.520 and came in lower on every other metric in the table too, so this was not noise.
 
-## What the reranker was actually optimizing
+## What the reranker was optimizing
 
-My first instinct was a bug, so I checked the wiring: the candidate pool was right, the scores were being applied, the top five were really the reranker's top five. Everything worked as designed. So I looked at the losing cases one at a time.
+My first instinct was a bug, so I checked the wiring: the candidate pool was right, the scores were being applied, and the top five were the reranker's top five. Everything worked as designed, so I looked at the losing cases one at a time.
 
-The pattern was consistent. For a question like "when did X happen", the reranker promoted passages that discussed X in depth and demoted the passage that happened to contain the four-digit year. The cross-encoder is trained for semantic relevance: does this passage address this question? The metric rewards something narrower: does this passage contain the answer string? Those two objectives agree most of the time, and they disagree exactly where a reranker has the most leverage, on topically relevant passages that paraphrase, summarize, or stop just short of the literal answer.
+The pattern was consistent. For a question like "when did X happen", the reranker promoted passages that discussed X in depth and demoted the passage that happened to contain the four-digit year. The cross-encoder is trained for semantic relevance: does this passage address this question? The metric rewards something narrower: does this passage contain the answer string? Those two objectives agree most of the time. They disagree on the passages a reranker is built to surface: topically relevant ones that paraphrase or summarize the answer without containing the literal string.
 
-So the reranker was not broken. It was being graded by a metric that could not see what it was good at. Judged by an LLM judge or by gold passage labels, I would expect it to look very different. I have not run that comparison yet, so I do not claim it.
+So the reranker was working. The metric was grading it on something it was not trained to do. With an LLM judge or gold passage labels I would expect a different result, but I have not run that comparison yet, so I do not claim it.
 
 ## What I did with the result
 
-I shipped hybrid retrieval as the default and left the reranker as an opt-in flag. I wrote the finding down as an architecture decision record with the numbers, the losing cases, and the follow-up plan, instead of quietly removing the reranker or quietly removing the number.
+I shipped hybrid retrieval as the default and left the reranker as an opt-in flag. I wrote the finding down as an architecture decision record with the numbers, the losing cases, and the follow-up plan, rather than removing the reranker or leaving the result out of the docs.
 
 The follow-up is a relevance-aware evaluation: either gold passage labels for a sample of questions or an LLM judge that scores whether a passage answers the question rather than whether it contains a string. Until that exists, the reranker stays off, because the only evidence I have says it hurts the thing I can measure.
 
-## The lesson I keep
+## What I took from it
 
-The metric you choose decides which technique wins. Answer-string containment is a fine first metric for retrieval, and it quietly favors lexical methods like BM25 while penalizing anything that reasons about meaning. If I had only read the table, I would have concluded that reranking does not work. Reading the failures showed me that the table was asking the wrong question.
+The metric I chose decided which technique won. Answer-string containment is a reasonable first metric for retrieval, but it favors lexical methods like BM25 and penalizes anything that matches on meaning. If I had only read the table, I would have concluded that reranking does not work. Reading the failures showed that the metric was measuring the wrong thing for this comparison.
 
-The more general version: when an established technique loses on your benchmark, suspect the benchmark before you suspect the technique, and write down which one you decided to trust and why.
+When an established technique loses on a benchmark, I now check the benchmark before I blame the technique, and I write down which one I decided to trust and why.
 
 The numbers, the configuration flags, and the decision record are in the [repository's experiments and decisions docs](https://github.com/ssuresh808/Agentic-RAG-System-over-LLM-Inference-Optimization-Literature/blob/main/docs/experiments.md).

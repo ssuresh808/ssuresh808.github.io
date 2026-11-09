@@ -42,21 +42,21 @@ Face recognition demos usually do identity matching: is this the same person as 
 
 ## My contribution
 
-I designed and built the whole system. SigLIP-2 encodes text and faces into one shared embedding space. A FAISS IVF-Flat index holds normalized face embeddings for cosine retrieval, built once and cached on disk. Qwen2.5-VL-7B captions each retrieved face in the context of the query so the user can see why the system thinks it fits. A NiceGUI front end ties it together. The eval harness synthesizes queries from CelebA attribute labels, scores Recall@K and mean reciprocal rank, and measures latency at p50, p95, and p99. SLURM scripts package the index build and evaluation for a shared GPU cluster.
+SigLIP-2 encodes text and faces into one shared embedding space. A FAISS IVF-Flat index holds normalized face embeddings for cosine retrieval, built once and cached on disk. Qwen2.5-VL-7B captions each retrieved face in the context of the query so the user can see why the system thinks it fits. A NiceGUI front end ties it together. The eval harness synthesizes queries from CelebA attribute labels, scores Recall@K and mean reciprocal rank, and measures latency at p50, p95, and p99. SLURM scripts package the index build and evaluation for a shared GPU cluster.
 
 ## Architecture
 
-Three components with three roles. SigLIP-2 does the alignment: text and image embeddings live on the same unit hypersphere because contrastive training put them there, so retrieval is angular proximity. FAISS does the search. Qwen2.5-VL does the reasoning: it reads the query and the retrieved face and writes a sentence about whether they match and where the system might be wrong.
+SigLIP-2 does the alignment. Text and image embeddings live on the same unit hypersphere because contrastive training put them there, so retrieval is angular proximity. FAISS does the search over those embeddings. Qwen2.5-VL does the explaining: it reads the query and the retrieved face and writes a sentence about whether they match and where the system might be wrong.
 
 ## Key decisions
 
 **SigLIP-2 over CLIP, as a hypothesis to test.** SigLIP's sigmoid loss should produce a more uniform embedding distribution on the hypersphere than CLIP's batch softmax, and that uniformity should translate into better recall for description-to-image retrieval. I wrote this down as a pre-registered ablation (CLIP-ViT-L/14 vs SigLIP-2 base vs SigLIP-2 large on CelebA) with the hypothesis and metrics fixed before the run.
 
-**A separate vision-language stage for explanation.** Retrieval and explanation have different jobs. Keeping them separate means the index can be rebuilt without touching the explainer and the explainer can be swapped without re-indexing.
+**A separate vision-language stage for explanation.** Keeping retrieval and explanation separate means the index can be rebuilt without touching the explainer, and the explainer can be swapped without re-indexing.
 
 **Demographic attributes excluded from query synthesis.** The eval deliberately does not build queries from CelebA labels like Male, Young, Attractive, or Chubby.
 
-**An honest eval.** CelebA attributes are noisy and not exhaustive, so treating the original sample as the only gold target lower-bounds true retrieval quality. Absolute Recall@1 will look low; relative comparisons between encoders remain valid because the same noise affects all of them.
+**CelebA labels as a lower bound.** CelebA attributes are noisy and not exhaustive, so treating the original sample as the only gold target lower-bounds true retrieval quality. Absolute Recall@1 will look low; relative comparisons between encoders remain valid because the same noise affects all of them.
 
 ## Evidence
 
@@ -75,4 +75,4 @@ The real-model ablation is scripted in `slurm/ablation.sbatch` and has not been 
 
 ## Tradeoffs and next steps
 
-The real-model run is the obvious next step and depends on GPU time. Beyond that: IVF-Flat versus brute force at the full 200k-image scale, and how much the explanation stage costs per query.
+The real-model run is the next step and depends on GPU time. After that I want to compare IVF-Flat against brute force at the full 200k-image scale and measure how much the explanation stage costs per query.
