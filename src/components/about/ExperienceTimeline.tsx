@@ -33,6 +33,22 @@ export function ExperienceTimeline({ entries, compact = false }: { entries: Expe
                 <li key={h}>{h}</li>
               ))}
             </ul>
+            {!compact && (e.summary || e.sections) ? (
+              <div className="mt-6 rounded-card border border-border bg-surface p-5">
+                {e.summary ? <p className="max-w-prose leading-relaxed">{e.summary}</p> : null}
+                {e.sections?.map((section) => (
+                  <section key={section.heading} className="mt-5">
+                    <h4 className="font-mono text-xs uppercase tracking-[0.12em] text-muted">{section.heading}</h4>
+                    <ul className="mt-2 list-disc space-y-2 pl-5 text-sm leading-relaxed">
+                      {section.items.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </section>
+                ))}
+                {e.note ? <p className="mt-5 text-xs text-muted">{e.note}</p> : null}
+              </div>
+            ) : null}
           </div>
         </li>
       ))}

@@ -49,3 +49,15 @@ test('skill evidence labels are short project names, not full titles', async ({ 
   }
   await expect(page.locator('#skills li', { hasText: 'Qdrant' }).locator('span.text-xs')).toHaveText('Agentic RAG');
 });
+
+test('the FitBUX entry on the about page tells the fuller story; the home page keeps the short version', async ({ page }) => {
+  await page.goto('/about/');
+  const entry = page.locator('#experience-fitbux');
+  await expect(entry).toContainText('Elastic Beanstalk');
+  await expect(entry).toContainText('Tkinter');
+  await expect(entry).toContainText('Vertex AI');
+  await expect(entry).toContainText(/belongs to FitBUX/);
+  await expect(entry.getByRole('heading', { level: 4 }).first()).toBeVisible();
+  await page.goto('/');
+  await expect(page.locator('#experience-fitbux')).not.toContainText('Tkinter');
+});

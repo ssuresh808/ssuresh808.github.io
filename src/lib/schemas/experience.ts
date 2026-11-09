@@ -14,6 +14,18 @@ export const ExperienceEntrySchema = z.object({
   kind: z.enum(['internship', 'research', 'volunteer', 'full-time', 'part-time']),
   highlights: z.array(z.string().min(20)).min(1).max(4),
   caseStudy: z.boolean().default(false),
+  // Optional fuller account, shown on /about/ only.
+  summary: z.string().min(20).optional(),
+  note: z.string().min(10).optional(),
+  sections: z
+    .array(
+      z.object({
+        heading: z.string().min(2).max(60),
+        items: z.array(z.string().min(20)).min(1).max(6),
+      }),
+    )
+    .max(8)
+    .optional(),
 });
 export type ExperienceEntry = z.infer<typeof ExperienceEntrySchema>;
 export const ExperienceFileSchema = z.array(ExperienceEntrySchema).min(1);

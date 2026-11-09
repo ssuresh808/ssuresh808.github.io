@@ -108,3 +108,27 @@ describe('ProjectFrontmatterSchema.shortTitle', () => {
     expect(ProjectFrontmatterSchema.safeParse({ ...validProject, shortTitle: 'x'.repeat(21) }).success).toBe(false);
   });
 });
+
+describe('ExperienceEntrySchema.sections', () => {
+  it('accepts optional detail sections with a heading and items, and rejects an empty section', async () => {
+    const { ExperienceEntrySchema } = await import('@/lib/schemas/experience');
+    const base = {
+      id: 'fitbux',
+      organization: 'FitBUX',
+      title: 'Machine Learning Intern',
+      start: '2023-06',
+      end: '2024-05',
+      kind: 'internship',
+      highlights: ['Fine-tuned BERT on a financial-text corpus and shipped it to production users.'],
+    };
+    expect(ExperienceEntrySchema.safeParse(base).success).toBe(true);
+    const withSections = {
+      ...base,
+      summary: 'A chatbot for routine money questions so advisors could focus on complex cases.',
+      note: 'The code belongs to FitBUX, so there is no public repository.',
+      sections: [{ heading: 'Data', items: ['Started from a list of over 1,000 question and answer pairs.'] }],
+    };
+    expect(ExperienceEntrySchema.safeParse(withSections).success).toBe(true);
+    expect(ExperienceEntrySchema.safeParse({ ...withSections, sections: [{ heading: 'Data', items: [] }] }).success).toBe(false);
+  });
+});
