@@ -32,7 +32,16 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const profile = loadProfile();
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          // Applies the saved theme before first paint so there is no flash; without JS the CSS media query applies.
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark'){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.dataset.theme=t}catch(e){}})();",
+          }}
+        />
+      </head>
       <body className="flex min-h-screen flex-col">
         <SiteHeader resumeHref={profile.resume.path} resumeDownloadName={profile.resume.downloadName} />
         <main id="main" className="flex-1">

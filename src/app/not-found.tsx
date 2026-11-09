@@ -12,7 +12,7 @@ export default function NotFound() {
         That address does not exist on this site. The projects and résumé are one click away.
       </p>
       <div className="mt-8 flex gap-4">
-        <Link href="/" className="rounded-button bg-accent px-4 py-2 text-sm font-medium text-white">
+        <Link href="/" className="rounded-button bg-accent px-4 py-2 text-sm font-medium text-on-accent">
           Back to home
         </Link>
         <Link href="/projects/" className="rounded-button border border-border bg-surface px-4 py-2 text-sm font-medium">

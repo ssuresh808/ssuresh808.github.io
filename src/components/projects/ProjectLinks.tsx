@@ -30,7 +30,7 @@ export function ProjectLinks({ project }: { project: Project }) {
             <ExternalLink href={project.demoUrl} className={linkClass}>
               <Globe size={16} aria-hidden="true" /> Live app (API paused)
             </ExternalLink>
-            <p className="mt-1 flex items-start gap-2 rounded-button border border-amber-300 bg-amber-50 p-2 text-sm text-amber-900">
+            <p className="mt-1 flex items-start gap-2 rounded-button border border-warn-border bg-warn-bg p-2 text-sm text-warn-text">
               <PauseCircle size={16} aria-hidden="true" className="mt-0.5 shrink-0" />
               <span>{project.demoNote}</span>
             </p>

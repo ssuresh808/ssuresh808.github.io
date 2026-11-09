@@ -34,7 +34,7 @@ export function ProjectGallery({ projects }: { projects: ProjectCardData[] }) {
               aria-pressed={active}
               onClick={() => setFilter(o.value)}
               className={`rounded-full border px-3 py-1.5 text-sm font-medium transition-colors ${
-                active ? 'border-accent bg-accent text-white' : 'border-border bg-surface text-ink hover:border-accent'
+                active ? 'border-accent bg-accent text-on-accent' : 'border-border bg-surface text-ink hover:border-accent'
               }`}
             >
               {o.label} <span className="font-mono text-xs opacity-80">{o.count}</span>

@@ -8,6 +8,10 @@
   --color-accent: #12665c;
   --color-accent-tint: #e7f2ef;
   --color-border: #dce5e1;
+  --color-on-accent: #ffffff;
+  --color-warn-bg: #fffbeb;
+  --color-warn-text: #78350f;
+  --color-warn-border: #fcd34d;
   --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   --radius-card: 14px;
@@ -17,6 +21,42 @@
 
 html {
   scroll-behavior: smooth;
+  color-scheme: light;
+}
+
+/* Dark theme: chosen with the header toggle (data-theme) or, before any choice, by the system. */
+:root[data-theme='dark'],
+:root:not([data-theme]):where(.prefers-dark) {
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --color-bg: #0f1716;
+    --color-surface: #172321;
+    --color-ink: #e8efec;
+    --color-muted: #a3b3ae;
+    --color-accent: #5fc3b3;
+    --color-accent-tint: #163531;
+    --color-border: #2a3a36;
+    --color-on-accent: #0f1716;
+    --color-warn-bg: #3a2a08;
+    --color-warn-text: #fde68a;
+    --color-warn-border: #a16207;
+  }
+}
+:root[data-theme='dark'] {
+  --color-bg: #0f1716;
+  --color-surface: #172321;
+  --color-ink: #e8efec;
+  --color-muted: #a3b3ae;
+  --color-accent: #5fc3b3;
+  --color-accent-tint: #163531;
+  --color-border: #2a3a36;
+  --color-on-accent: #0f1716;
+  --color-warn-bg: #3a2a08;
+  --color-warn-text: #fde68a;
+  --color-warn-border: #a16207;
 }
 
 /* Anchor targets stop below the sticky header instead of underneath it. */
@@ -55,7 +95,7 @@ body {
   z-index: 100;
   padding: 0.5rem 0.75rem;
   background: var(--color-accent);
-  color: #fff;
+  color: var(--color-on-accent);
   border-radius: var(--radius-button);
 }
 .skip-link:focus {

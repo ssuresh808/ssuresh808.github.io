@@ -3,6 +3,7 @@ import { Download } from 'lucide-react';
 import { navItems } from '@/config/navigation';
 import { site } from '@/config/site';
 import { MobileMenu } from './MobileMenu';
+import { ThemeToggle } from './ThemeToggle';
 
 interface Props {
   resumeHref: string;
@@ -28,7 +29,7 @@ export function SiteHeader({ resumeHref, resumeDownloadName }: Props) {
     <a
       href={resumeHref}
       download={resumeDownloadName}
-      className="inline-flex items-center gap-1.5 rounded-button bg-accent px-3 py-1.5 text-sm font-medium text-white hover:opacity-90"
+      className="inline-flex items-center gap-1.5 rounded-button bg-accent px-3 py-1.5 text-sm font-medium text-on-accent hover:opacity-90"
     >
       <Download size={16} aria-hidden="true" />
       Résumé
@@ -43,18 +44,21 @@ export function SiteHeader({ resumeHref, resumeDownloadName }: Props) {
         <Link href="/" className="font-semibold tracking-tight text-ink">
           {site.name}
         </Link>
-        <div className="hidden items-center gap-6 sm:flex">
-          <nav aria-label="Primary">
-            <NavLinks />
-          </nav>
-          {resume}
-        </div>
-        <MobileMenu label="Menu">
+        <div className="flex items-center gap-3">
+          <div className="hidden items-center gap-6 sm:flex">
+            <nav aria-label="Primary">
+              <NavLinks />
+            </nav>
+            {resume}
+          </div>
+          <ThemeToggle />
+          <MobileMenu label="Menu">
           <nav aria-label="Primary">
             <NavLinks stacked />
           </nav>
-          <div className="mt-4">{resume}</div>
-        </MobileMenu>
+            <div className="mt-4">{resume}</div>
+          </MobileMenu>
+        </div>
       </div>
     </header>
   );

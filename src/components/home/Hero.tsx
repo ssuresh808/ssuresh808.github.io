@@ -19,7 +19,7 @@ export function Hero({ profile }: { profile: Profile }) {
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link
               href="/projects/"
-              className="inline-flex items-center gap-2 rounded-button bg-accent px-4 py-2.5 text-sm font-medium text-white hover:opacity-90"
+              className="inline-flex items-center gap-2 rounded-button bg-accent px-4 py-2.5 text-sm font-medium text-on-accent hover:opacity-90"
             >
               See projects <ArrowRight size={16} aria-hidden="true" />
             </Link>
