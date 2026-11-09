@@ -6,7 +6,7 @@ import { formatIsoDate } from '@/lib/text';
 
 export const metadata: Metadata = {
   title: 'Notes',
-  description: 'Short engineering notes from Suraj Suresh: what a result meant, which decision followed, and why.',
+  description: 'Short engineering notes from Suraj Suresh on single results and the decisions that followed.',
   alternates: { canonical: '/notes/' },
 };
 
@@ -17,7 +17,7 @@ export default function NotesPage() {
       <p className="font-mono text-xs uppercase tracking-[0.12em] text-muted">Writing</p>
       <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">Notes</h1>
       <p className="mt-4 max-w-prose text-muted">
-        Short write-ups of one result each: what the numbers said, what I decided, and what I would check next.
+        Short notes on single results: what the numbers showed, what I changed because of them, and what I still want to check.
       </p>
       <ul className="mt-8 max-w-3xl space-y-6">
         {notes.map((n) => (

@@ -16,8 +16,8 @@ export default function ProjectsPage() {
       <p className="font-mono text-xs uppercase tracking-[0.12em] text-muted">Selected work</p>
       <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">Projects</h1>
       <p className="mt-4 max-w-prose text-muted">
-        Each case study states the problem, exactly what I built, the architecture, the decisions, measured evidence
-        with its method, and what I would do next.
+        For each project: the problem, what I built, how it works, the decisions I made, the measurements and how I
+        took them, and what I would do next.
       </p>
       <div className="mt-8">
         <ProjectGallery projects={projects} />

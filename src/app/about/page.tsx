@@ -36,13 +36,13 @@ export default function AboutPage() {
       <Section id="education" eyebrow="Education" title="Degrees" className="border-t border-border bg-surface">
         <Education data={education} />
       </Section>
-      <Section id="training" eyebrow="Training" title="Structured programs">
+      <Section id="training" eyebrow="Training" title="Courses and bootcamps">
         <Training entries={education.training} />
       </Section>
       <Section
         id="skills"
         eyebrow="Skills"
-        title="Skills, each tied to the work that proves it"
+        title="Skills and where I used them"
         className="border-t border-border bg-surface"
       >
         <SkillEvidence groups={skills} experience={experience} projectTitles={titles} />

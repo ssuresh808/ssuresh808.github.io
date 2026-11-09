@@ -32,7 +32,7 @@ export function SiteFooter({ profile }: { profile: Profile }) {
             </a>
           </li>
         </ul>
-        <p className="mt-10 text-xs text-muted">{profile.name}. Built as a static site; no analytics, no cookies.</p>
+        <p className="mt-10 text-xs text-muted">{profile.name}. Static site, no analytics, no cookies.</p>
       </div>
     </footer>
   );

@@ -37,7 +37,7 @@ export default function HomePage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
       <Hero profile={profile} />
-      <Section id="work" eyebrow="Selected work" title="Three systems, each with evidence and documented decisions">
+      <Section id="work" eyebrow="Selected work" title="Three projects, start to finish">
         <FeaturedProjectGrid projects={featured} />
         <p className="mt-6 text-sm">
           <Link href="/projects/" className="font-medium text-accent underline underline-offset-4">
@@ -48,17 +48,17 @@ export default function HomePage() {
       <Section
         id="experience"
         eyebrow="Experience"
-        title="Production ML in fintech"
+        title="A year of production ML at FitBUX"
         className="border-t border-border bg-surface"
       >
         <ExperienceTimeline entries={experience} compact />
         <p className="mt-6 text-sm">
           <Link href="/about/#experience" className="font-medium text-accent underline underline-offset-4">
-            Full experience and education
+            Experience, education, and training
           </Link>
         </p>
       </Section>
-      <Section id="skills" eyebrow="Skills" title="Every skill points at the work that proves it">
+      <Section id="skills" eyebrow="Skills" title="Skills and where I used them">
         <SkillEvidence groups={skills} experience={experience} projectTitles={titles} compact />
       </Section>
       <Section id="education" eyebrow="Education" className="border-t border-border bg-surface">
