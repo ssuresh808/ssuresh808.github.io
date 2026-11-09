@@ -32,7 +32,7 @@ export function SkillEvidence({ groups, experience, projectTitles, compact = fal
               {g.items.map((item) => {
                 const first = item.evidence.map((r) => evidenceTarget(r, experience, projectTitles)).find(Boolean);
                 return (
-                  <li key={item.name} className="flex flex-wrap items-baseline justify-between gap-x-3">
+                  <li key={item.name} className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-3">
                     {first ? (
                       <Link
                         href={first.href}
@@ -44,7 +44,7 @@ export function SkillEvidence({ groups, experience, projectTitles, compact = fal
                     ) : (
                       <span>{item.name}</span>
                     )}
-                    {!compact && first ? <span className="text-xs text-muted">{first.label}</span> : null}
+                    {!compact && first ? <span className="text-right text-xs text-muted">{first.label}</span> : null}
                   </li>
                 );
               })}
