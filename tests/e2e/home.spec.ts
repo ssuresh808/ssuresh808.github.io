@@ -4,7 +4,8 @@ test('hero states who, what, and what is being sought', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Suraj Suresh');
   await expect(page.getByText('I build and evaluate AI systems end to end.')).toBeVisible();
-  await expect(page.getByText(/Summer 2027 internships/).first()).toBeVisible();
+  await expect(page.getByText(/Summer 2027 internships and to full-time roles/)).toBeVisible();
+  await expect(page.getByRole('contentinfo').getByRole('heading', { level: 2 })).toHaveText('Open to Summer 2027 internships and full-time roles');
   await expect(page.getByRole('link', { name: 'See projects' })).toHaveAttribute('href', '/projects/');
   await expect(page.getByRole('link', { name: /Download résumé/ })).toHaveAttribute('href', '/resume.pdf');
 });
