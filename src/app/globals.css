@@ -169,6 +169,17 @@ body {
   margin-bottom: 1rem;
 }
 
+/* Evidence table row headers are labels for the reader, not column headings. */
+.evidence-table tbody th {
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--color-ink);
+  background: transparent;
+}
+
 /* Evidence table: stacked rows on phones so every cell, including the method, is readable without sideways scrolling. */
 @media (max-width: 639px) {
   .evidence-table thead {

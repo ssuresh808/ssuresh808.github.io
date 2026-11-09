@@ -29,6 +29,7 @@ export const ProjectFrontmatterSchema = z
   .object({
     slug: Slug,
     title: z.string().min(3),
+    shortTitle: z.string().min(2).max(20).optional(), // used where the full title would wrap (skill evidence labels)
     tagline: z.string().min(10).max(160),
     category: CategorySchema,
     featured: z.boolean().default(false),

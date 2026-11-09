@@ -74,3 +74,24 @@ test.describe('project detail pages', () => {
     await expect(page.locator('body')).not.toContainText('0 stars');
   });
 });
+
+test.describe('evidence table typography (desktop)', () => {
+  test.skip(({ isMobile }) => isMobile, 'stacked layout on phones is covered by the a11y suite');
+  test('row headers read as sentence-case text and values stay on one line', async ({ page }) => {
+    await page.goto('/projects/agentic-rag/');
+    const table = page.getByRole('table', { name: 'Evidence' });
+    const rowHeader = table.locator('tbody th').first();
+    expect(await rowHeader.evaluate((el) => getComputedStyle(el).textTransform)).toBe('none');
+    expect(await rowHeader.evaluate((el) => getComputedStyle(el).fontFamily)).toMatch(/Inter/);
+    const values = table.locator('tbody td[data-label="Value"]');
+    const count = await values.count();
+    for (let i = 0; i < count; i++) {
+      const lines = await values.nth(i).evaluate((el) => {
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        return range.getClientRects().length;
+      });
+      expect(lines, `value ${i} wraps`).toBe(1);
+    }
+  });
+});

@@ -13,6 +13,12 @@ export function EvidenceTable({ evidence }: { evidence: Evidence[] }) {
       </p>
       <div className="table-wrap mt-4" tabIndex={0}>
         <table aria-label="Evidence" className="evidence-table">
+          <colgroup>
+            <col className="w-[26%]" />
+            <col />
+            <col />
+            <col className="w-[16%]" />
+          </colgroup>
           <thead>
             <tr>
               <th scope="col">Measure</th>
@@ -27,7 +33,9 @@ export function EvidenceTable({ evidence }: { evidence: Evidence[] }) {
                 <th scope="row" className="font-medium normal-case tracking-normal text-ink">
                   {e.label}
                 </th>
-                <td data-label="Value" className="font-mono">{e.value}</td>
+                <td data-label="Value" className="font-mono sm:whitespace-nowrap">
+                  {e.value}
+                </td>
                 <td data-label="Method" className="text-muted">{e.method}</td>
                 <td data-label="Source">
                   {e.sourceUrl ? (

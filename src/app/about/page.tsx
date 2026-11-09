@@ -18,7 +18,7 @@ export default function AboutPage() {
   const experience = loadExperience();
   const education = loadEducation();
   const skills = loadSkills();
-  const titles = Object.fromEntries(getPublishedProjects().map((p) => [p.slug, p.title]));
+  const titles = Object.fromEntries(getPublishedProjects().map((p) => [p.slug, p.shortTitle ?? p.title]));
 
   return (
     <>

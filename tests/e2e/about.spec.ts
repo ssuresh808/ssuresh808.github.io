@@ -37,3 +37,15 @@ test('anchor targets are not hidden under the sticky header', async ({ page }) =
   const target = await page.locator('#experience-fitbux').boundingBox();
   expect(header && target && target.y >= header.y + header.height).toBe(true);
 });
+
+test('skill evidence labels are short project names, not full titles', async ({ page }) => {
+  await page.goto('/about/');
+  const labels = page.locator('#skills li span.text-xs');
+  const count = await labels.count();
+  expect(count).toBeGreaterThan(10);
+  for (let i = 0; i < count; i++) {
+    const text = (await labels.nth(i).textContent())?.trim() ?? '';
+    expect(text.length, `label "${text}" is too long`).toBeLessThanOrEqual(20);
+  }
+  await expect(page.locator('#skills li', { hasText: 'Qdrant' }).locator('span.text-xs')).toHaveText('Agentic RAG');
+});

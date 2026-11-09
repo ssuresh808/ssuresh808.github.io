@@ -18,7 +18,7 @@ export default function HomePage() {
   const education = loadEducation();
   const skills = loadSkills();
   const featured = getFeaturedProjects().map(toCardData);
-  const titles = Object.fromEntries(getPublishedProjects().map((p) => [p.slug, p.title]));
+  const titles = Object.fromEntries(getPublishedProjects().map((p) => [p.slug, p.shortTitle ?? p.title]));
   const inProgress = education.education.filter((e) => e.status === 'in progress');
   const completed = education.education.filter((e) => e.status === 'completed');
   const personJsonLd = {

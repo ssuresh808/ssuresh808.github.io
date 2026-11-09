@@ -101,3 +101,10 @@ describe('SnapshotSchema', () => {
     expect(r.success).toBe(false);
   });
 });
+
+describe('ProjectFrontmatterSchema.shortTitle', () => {
+  it('accepts a short title up to 20 characters and rejects longer ones', () => {
+    expect(ProjectFrontmatterSchema.safeParse({ ...validProject, shortTitle: 'Agentic RAG' }).success).toBe(true);
+    expect(ProjectFrontmatterSchema.safeParse({ ...validProject, shortTitle: 'x'.repeat(21) }).success).toBe(false);
+  });
+});
