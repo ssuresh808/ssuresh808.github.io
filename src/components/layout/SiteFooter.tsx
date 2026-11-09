@@ -8,7 +8,7 @@ export function SiteFooter({ profile }: { profile: Profile }) {
   return (
     <footer id="contact" className="border-t border-border bg-surface">
       <div className="mx-auto max-w-site px-4 py-12 sm:px-6 lg:px-8">
-        <p className="font-mono text-xs uppercase tracking-[0.12em] text-muted">Let&apos;s connect</p>
+        <p className="font-mono text-xs uppercase tracking-[0.12em] text-muted">Contact</p>
         <h2 className="mt-2 text-2xl font-semibold tracking-tight">Open to {profile.availability}</h2>
         <ul className="mt-6 flex flex-wrap gap-x-8 gap-y-3">
           <li>

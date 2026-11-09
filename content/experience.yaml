@@ -26,7 +26,7 @@
         - Wrote the Python and SQL pipelines that pulled the records together and kept them consistent.
     - heading: Model and training
       items:
-        - Chose BERT for its bidirectional reading of a sentence, which matters for financial questions full of technical terms, and PyTorch with Hugging Face Transformers for fast iteration on fine-tuning.
+        - Chose BERT because it reads a sentence in both directions, which helps with financial questions full of technical terms. Used PyTorch with Hugging Face Transformers so I could iterate quickly on fine-tuning.
         - Tokenized the pairs with the BERT tokenizer, fine-tuned on the Q&A set, and tuned learning rate, batch size, and epochs against a held-out validation set to catch overfitting.
         - Trained on cloud GPU machines, first a Google Compute Engine deep learning VM with data in Cloud Storage under a service account, then an AWS EC2 machine learning image with CUDA and checkpoints in S3 behind IAM roles.
     - heading: Serving

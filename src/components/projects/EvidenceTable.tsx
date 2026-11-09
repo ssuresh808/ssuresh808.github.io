@@ -9,7 +9,7 @@ export function EvidenceTable({ evidence }: { evidence: Evidence[] }) {
         Results
       </h2>
       <p className="mt-2 text-sm text-muted">
-        Each number says where it came from and links to the file in the repo that produced it.
+        Each row shows how I measured the number and links to the file in the repo that produced it.
       </p>
       <div className="table-wrap mt-4" tabIndex={0}>
         <table aria-label="Evidence" className="evidence-table">

@@ -37,7 +37,7 @@ export default function HomePage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
       <Hero profile={profile} />
-      <Section id="work" eyebrow="Selected work" title="Three projects, start to finish">
+      <Section id="work" eyebrow="Selected work" title="Three case studies">
         <FeaturedProjectGrid projects={featured} />
         <p className="mt-6 text-sm">
           <Link href="/projects/" className="font-medium text-accent underline underline-offset-4">

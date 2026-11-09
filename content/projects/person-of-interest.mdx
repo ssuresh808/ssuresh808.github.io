@@ -2,7 +2,7 @@
 slug: person-of-interest
 title: Person of Interest, explainable multimodal face retrieval
 shortTitle: Person of Interest
-tagline: Describe a face in words, get the closest matches from a face corpus, and see why each one matched.
+tagline: Finds the closest faces in a corpus from a written description and explains why each one matched.
 category: ai-ml
 featured: true
 order: 3
@@ -46,7 +46,7 @@ SigLIP-2 encodes text and faces into one shared embedding space. A FAISS IVF-Fla
 
 ## Architecture
 
-SigLIP-2 does the alignment. Text and image embeddings live on the same unit hypersphere because contrastive training put them there, so retrieval is angular proximity. FAISS does the search over those embeddings. Qwen2.5-VL does the explaining: it reads the query and the retrieved face and writes a sentence about whether they match and where the system might be wrong.
+SigLIP-2 puts text and image embeddings on the same unit hypersphere through contrastive training, so retrieval is angular proximity. FAISS searches over those embeddings. Qwen2.5-VL reads the query and the retrieved face and writes a sentence about whether they match and where the system might be wrong.
 
 ## Key decisions
 
