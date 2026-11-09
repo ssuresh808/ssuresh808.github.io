@@ -21,7 +21,7 @@ export default function NotesPage() {
       </p>
       <ul className="mt-8 max-w-3xl space-y-6">
         {notes.map((n) => (
-          <li key={n.slug} className="rounded-card border border-border bg-surface p-6">
+          <li key={n.slug} data-reveal className="card-hover rounded-card border border-border bg-surface p-6">
             <div className="flex flex-wrap items-center gap-2">
               <time dateTime={n.publishedAt} className="font-mono text-xs text-muted">
                 {formatIsoDate(n.publishedAt)}

@@ -25,7 +25,10 @@ export function ThemeToggle() {
   const next: Theme = theme === 'dark' ? 'light' : 'dark';
 
   const apply = () => {
-    document.documentElement.dataset.theme = next;
+    const root = document.documentElement;
+    root.classList.add('theme-transition');
+    window.setTimeout(() => root.classList.remove('theme-transition'), 350);
+    root.dataset.theme = next;
     try {
       localStorage.setItem('theme', next);
     } catch {

@@ -5,13 +5,15 @@ import { Chip } from '@/components/common/Chip';
 import { CATEGORY_LABELS } from '@/lib/schemas/project';
 import type { ProjectCardData } from '@/lib/projects';
 
-export function ProjectCard({ project }: { project: ProjectCardData }) {
+export function ProjectCard({ project, index = 0 }: { project: ProjectCardData; index?: number }) {
   const href = `/projects/${project.slug}/`;
   return (
     <article
       data-testid="project-card"
       data-featured={project.featured}
-      className="group relative flex h-full flex-col overflow-hidden rounded-card border border-border bg-surface transition-colors focus-within:border-accent hover:border-accent"
+      data-reveal
+      style={{ '--reveal-i': index } as React.CSSProperties}
+      className="card-hover group relative flex h-full flex-col overflow-hidden rounded-card border border-border bg-surface focus-within:border-accent hover:border-accent"
     >
       <div className="relative aspect-[16/10] w-full border-b border-border bg-accent-tint">
         <Image

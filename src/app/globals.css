@@ -1,13 +1,13 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-bg: #f7f8f6;
+  --color-bg: #f8fafc;
   --color-surface: #ffffff;
-  --color-ink: #172321;
-  --color-muted: #52615d;
-  --color-accent: #12665c;
-  --color-accent-tint: #e7f2ef;
-  --color-border: #dce5e1;
+  --color-ink: #0f172a;
+  --color-muted: #475569;
+  --color-accent: #1d4ed8;
+  --color-accent-tint: #eff6ff;
+  --color-border: #e2e8f0;
   --color-on-accent: #ffffff;
   --color-warn-bg: #fffbeb;
   --color-warn-text: #78350f;
@@ -32,28 +32,28 @@ html {
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     color-scheme: dark;
-    --color-bg: #0f1716;
-    --color-surface: #172321;
-    --color-ink: #e8efec;
-    --color-muted: #a3b3ae;
-    --color-accent: #5fc3b3;
-    --color-accent-tint: #163531;
-    --color-border: #2a3a36;
-    --color-on-accent: #0f1716;
+    --color-bg: #0b1220;
+    --color-surface: #111a2e;
+    --color-ink: #e2e8f0;
+    --color-muted: #94a3b8;
+    --color-accent: #60a5fa;
+    --color-accent-tint: #172554;
+    --color-border: #22304a;
+    --color-on-accent: #0b1220;
     --color-warn-bg: #3a2a08;
     --color-warn-text: #fde68a;
     --color-warn-border: #a16207;
   }
 }
 :root[data-theme='dark'] {
-  --color-bg: #0f1716;
-  --color-surface: #172321;
-  --color-ink: #e8efec;
-  --color-muted: #a3b3ae;
-  --color-accent: #5fc3b3;
-  --color-accent-tint: #163531;
-  --color-border: #2a3a36;
-  --color-on-accent: #0f1716;
+  --color-bg: #0b1220;
+  --color-surface: #111a2e;
+  --color-ink: #e2e8f0;
+  --color-muted: #94a3b8;
+  --color-accent: #60a5fa;
+  --color-accent-tint: #172554;
+  --color-border: #22304a;
+  --color-on-accent: #0b1220;
   --color-warn-bg: #3a2a08;
   --color-warn-text: #fde68a;
   --color-warn-border: #a16207;
@@ -253,4 +253,62 @@ body {
     letter-spacing: 0.06em;
     color: var(--color-muted);
   }
+}
+
+/* Motion. Entrance reveals only run when JavaScript has marked the page (html.js); without it, or with
+   reduced motion, everything is simply visible. */
+html.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+  transition-delay: calc(var(--reveal-i, 0) * 70ms);
+}
+html.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+.card-hover {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+.card-hover:hover,
+.card-hover:focus-within {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px -16px rgb(15 23 42 / 0.25);
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.page-enter {
+  animation: page-enter 0.35s ease both;
+}
+
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease !important;
 }

@@ -9,7 +9,7 @@ export function Hero({ profile }: { profile: Profile }) {
   return (
     <section className="border-b border-border bg-surface">
       <div className="mx-auto grid max-w-site gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_auto] lg:items-center lg:px-8 lg:py-24">
-        <div className="max-w-3xl">
+        <div data-reveal className="max-w-3xl">
           <p className="font-mono text-xs uppercase tracking-[0.12em] text-muted">Engineering portfolio</p>
           <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">{profile.name}</h1>
           <p className="mt-4 text-2xl font-medium leading-snug text-ink sm:text-3xl">{profile.headline}</p>

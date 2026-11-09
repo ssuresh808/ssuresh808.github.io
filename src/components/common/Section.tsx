@@ -12,7 +12,7 @@ export function Section({ id, eyebrow, title, children, className = '' }: Sectio
   const headingId = id && title ? `${id}-heading` : undefined;
   return (
     <section id={id} aria-labelledby={headingId} className={`py-12 sm:py-16 ${className}`}>
-      <div className="mx-auto max-w-site px-4 sm:px-6 lg:px-8">
+      <div data-reveal className="mx-auto max-w-site px-4 sm:px-6 lg:px-8">
         <p className="font-mono text-xs uppercase tracking-[0.12em] text-muted">{eyebrow}</p>
         {title ? (
           <h2 id={headingId} className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">

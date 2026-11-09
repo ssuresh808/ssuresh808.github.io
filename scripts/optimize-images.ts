@@ -6,7 +6,7 @@ const COVER_SRC = 'assets/covers';
 const COVER_OUT = 'public/projects';
 const COVER_WIDTH = 1200;
 const COVER_HEIGHT = 750; // 16:10 to match the card aspect ratio
-const CANVAS = '#e7f2ef';
+const CANVAS = '#eff6ff';
 
 async function covers() {
   for (const file of fs.readdirSync(COVER_SRC).filter((f) => /\.(png|jpe?g)$/i.test(f))) {
